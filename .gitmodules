@@ -1,0 +1,21 @@
+[submodule "modules/MMM-Carousel"]
+	path = modules/MMM-Carousel
+	url = https://github.com/shbatm/MMM-Carousel.git
+[submodule "modules/MMM-PublicTransportHafas"]
+	path = modules/MMM-PublicTransportHafas
+	url = https://github.com/KristjanESPERANTO/MMM-PublicTransportHafas.git
+[submodule "modules/MMM-Bring"]
+	path = modules/MMM-Bring
+	url = https://github.com/werthdavid/MMM-Bring.git
+[submodule "modules/mmm-systemtemperature"]
+	path = modules/mmm-systemtemperature
+	url = https://github.com/MichMich/mmm-systemtemperature.git
+[submodule "modules/MMM-WiFiPassword"]
+	path = modules/MMM-WiFiPassword
+	url = https://github.com/TeraTech/MMM-WiFiPassword.git
+[submodule "modules/MMM-OnThisDayWikiApi"]
+	path = modules/MMM-OnThisDayWikiApi
+	url = https://github.com/slugmuffin/MMM-OnThisDayWikiApi.git
+[submodule "modules/MMM-Hue-Controller-2"]
+	path = modules/MMM-Hue-Controller-2
+	url = https://github.com/jboucly/MMM-Hue-Controller-2

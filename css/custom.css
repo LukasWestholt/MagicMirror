@@ -1,0 +1,12 @@
+:root {
+  --color-text: #fff;
+  --font-size: 25px;
+}
+
+.MMM-OnThisDayWikiApi-single .title {
+  text-transform: none;
+}
+
+#WiFiPassword header {
+  border-bottom: 0;
+}

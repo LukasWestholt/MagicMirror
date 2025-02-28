@@ -1,5 +1,95 @@
 # ![MagicMirror²: The open source modular smart mirror platform.](.github/header.png)
 
+smartmirror.local
+username: lukas
+
+# Preparing
+
+Install node/npm: https://github.com/nodesource/distributions?tab=readme-ov-file#using-debian-as-root-nodejs-20
+
+## Starting
+
+Follow: https://docs.magicmirror.builders/getting-started/installation.html#manual-installation and https://docs.magicmirror.builders/configuration/autostart.html#using-pm2
+
+Install MMM:
+```bash
+cd modules
+git clone https://github.com/shbatm/MMM-Carousel.git
+git clone https://github.com/KristjanESPERANTO/MMM-PublicTransportHafas.git && (cd MMM-PublicTransportHafas && npm ci)
+git clone https://github.com/bugsounet/MMM-Pir.git && (cd MMM-Pir && npm install)
+git clone https://github.com/werthdavid/MMM-Bring.git && (cd MMM-Bring && npm install)
+git clone https://github.com/MichMich/mmm-systemtemperature.git && (cd mmm-systemtemperature && npm install)
+git clone https://github.com/TeraTech/MMM-WiFiPassword.git
+git clone https://github.com/slugmuffin/MMM-OnThisDayWikiApi.git
+git clone https://github.com/jboucly/MMM-Hue-Controller-2 && (cd MMM-Hue-Controller-2 && npm ci)
+```
+
+Restart:
+```
+cd MagicMirror/
+pm2 restart mm
+```
+
+Docker install: https://docs.docker.com/engine/install/debian/ by curl get.docker.com
+
+## Hardware configuration
+https://github.com/MagicMirrorOrg/MagicMirror/wiki/Configuring-the-Raspberry-Pi
+```
+sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+```
+Add this lines at the end of the file:
+```
+@xrandr --output HDMI-1 --rotate left
+
+@xset s noblank
+@xset s off
+```
+
+```
+sudo nano /etc/rc.local
+```
+Add this one line at the end of the file, but before `exit 0`:
+```
+...
+
+/sbin/iwconfig wlan0 power off
+
+exit 0
+```
+
+
+
+`/boot/config.txt` or `/boot/firmware/config.txt`
+```
+# Disable the PWR/ACT LED on Raspberry Pi 3 Model B Rev 1.2
+dtparam=pwr_led_trigger=none
+dtparam=act_led_trigger=none
+```
+For information see README.md under `overlays/README`.
+
+GPIO 22
+
+Raspbian GNU/Linux 11 (bullseye). UPDATED!
+
+
+### PIR module
+- https://github.com/bugsounet/MMM-Pir
+
+or
+
+- https://github.com/Tom-Hirschberger/MMM-Screen-Powersave-Notification
+- https://github.com/Tom-Hirschberger/MMM-GPIO-Notifications
+
+
+Pins https://pinout.xyz/
+
+Id of AnkiConnect: 2055492159
+
+
+xrandr --auto
+
+
+
 <p style="text-align: center">
   <a href="https://choosealicense.com/licenses/mit">
   <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
