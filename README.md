@@ -21,19 +21,6 @@ Install node/npm: https://github.com/nodesource/distributions?tab=readme-ov-file
 
 Follow: https://docs.magicmirror.builders/getting-started/installation.html#manual-installation and https://docs.magicmirror.builders/configuration/autostart.html#using-pm2
 
-Install MMM:
-```bash
-cd modules
-git clone https://github.com/shbatm/MMM-Carousel.git
-git clone https://github.com/KristjanESPERANTO/MMM-PublicTransportHafas.git && (cd MMM-PublicTransportHafas && npm ci)
-git clone https://github.com/bugsounet/MMM-Pir.git && (cd MMM-Pir && npm install)
-git clone https://github.com/werthdavid/MMM-Bring.git && (cd MMM-Bring && npm install)
-git clone https://github.com/MichMich/mmm-systemtemperature.git && (cd mmm-systemtemperature && npm install)
-git clone https://github.com/TeraTech/MMM-WiFiPassword.git
-git clone https://github.com/slugmuffin/MMM-OnThisDayWikiApi.git
-git clone https://github.com/jboucly/MMM-Hue-Controller-2 && (cd MMM-Hue-Controller-2 && npm ci)
-```
-
 Restart:
 ```
 cd MagicMirror/

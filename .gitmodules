@@ -19,3 +19,6 @@
 [submodule "modules/MMM-Hue-Controller-2"]
 	path = modules/MMM-Hue-Controller-2
 	url = https://github.com/jboucly/MMM-Hue-Controller-2
+[submodule "modules/MMM-Pir"]
+	path = modules/MMM-Pir
+	url = https://github.com/Coernel82/MMM-Pir.git
