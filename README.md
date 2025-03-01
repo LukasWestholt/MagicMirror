@@ -5,6 +5,16 @@ username: lukas
 
 # Preparing
 
+Install a fresh OS via Raspberry Pi Imager (64 Bit version) then:
+``
+sudo apt update
+sudo apt upgrade
+sudo apt install -y git curl
+git clone --depth 3 --recurse-submodules https://github.com/LukasWestholt/MagicMirror.git
+cd MagicMirror
+sh install-repo.sh
+``
+
 Install node/npm: https://github.com/nodesource/distributions?tab=readme-ov-file#using-debian-as-root-nodejs-20
 
 ## Starting
