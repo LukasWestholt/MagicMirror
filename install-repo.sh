@@ -14,6 +14,7 @@ cd modules
 # autostart, see https://docs.magicmirror.builders/configuration/autostart.html
 sudo npm install -g pm2
 pm2 startup
+# see logs and do manually
 
 cd ~
 echo -e "cd ./MagicMirror\nDISPLAY=:0 npm start" > mm.sh
@@ -22,4 +23,26 @@ pm2 start mm.sh
 pm2 save
 # You can now use pm2 {restart|stop|logs|show} mm
 
+## Hardware configuration
+# See https://github.com/MagicMirrorOrg/MagicMirror/wiki/Configuring-the-Raspberry-Pi
 
+sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart >> /dev/null <<EOF
+@xrandr --output HDMI-1 --rotate left
+wlr-randr --output HDMI-A-1 --transform 90
+
+@xset s noblank
+@xset s off
+EOF
+
+sudo tee -a /etc/rc.local >> /dev/null <<EOF
+/sbin/iwconfig wlan0 power off
+exit 0
+EOF
+
+# Disable LEDs, see /boot/firmware/overlays/README
+sudo cp /boot/firmware/config.txt /boot/firmware/config_backup.txt
+sudo tee -a /boot/firmware/config.txt >> /dev/null <<EOF
+# Disable the PWR/ACT LED on Raspberry Pi 3 Model B Rev 1.2
+dtparam=pwr_led_trigger=none
+dtparam=act_led_trigger=none
+EOF

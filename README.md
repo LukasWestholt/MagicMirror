@@ -29,41 +29,6 @@ pm2 restart mm
 
 Docker install: https://docs.docker.com/engine/install/debian/ by curl get.docker.com
 
-## Hardware configuration
-https://github.com/MagicMirrorOrg/MagicMirror/wiki/Configuring-the-Raspberry-Pi
-```
-sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
-```
-Add this lines at the end of the file:
-```
-@xrandr --output HDMI-1 --rotate left
-
-@xset s noblank
-@xset s off
-```
-
-```
-sudo nano /etc/rc.local
-```
-Add this one line at the end of the file, but before `exit 0`:
-```
-...
-
-/sbin/iwconfig wlan0 power off
-
-exit 0
-```
-
-
-
-`/boot/config.txt` or `/boot/firmware/config.txt`
-```
-# Disable the PWR/ACT LED on Raspberry Pi 3 Model B Rev 1.2
-dtparam=pwr_led_trigger=none
-dtparam=act_led_trigger=none
-```
-For information see README.md under `overlays/README`.
-
 GPIO 22
 
 Raspbian GNU/Linux 11 (bullseye). UPDATED!
