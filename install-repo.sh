@@ -4,14 +4,14 @@ sudo -E bash nodesource_setup.sh
 sudo apt-get install -y nodejs
 node -v
 
-# Install MagicMirror
+# Install MagicMirror, see https://docs.magicmirror.builders/getting-started/installation.html#manual-installation
 npm run install-mm
 
 # Install modules
 cd modules
 (cd MMM-PublicTransportHafas && npm ci) && (cd MMM-Pir && npm install) && (cd MMM-Bring && npm install) && (cd mmm-systemtemperature && npm install) && (cd MMM-Hue-Controller-2 && npm ci)
 
-# autostart, see https://docs.magicmirror.builders/configuration/autostart.html
+# autostart, see https://docs.magicmirror.builders/configuration/autostart.html#using-pm2
 sudo npm install -g pm2
 pm2 startup
 # see logs and do manually

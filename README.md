@@ -3,29 +3,27 @@
 smartmirror.local
 username: lukas
 
-# Preparing
+# Fresh install
 
 Install a fresh OS via Raspberry Pi Imager (64 Bit version) then:
 ``
 sudo apt update
-sudo apt upgrade
+sudo apt upgrade -y
 sudo apt install -y git curl
 git clone --depth 3 --recurse-submodules https://github.com/LukasWestholt/MagicMirror.git
 cd MagicMirror
 sh install-repo.sh
 ``
 
-Install node/npm: https://github.com/nodesource/distributions?tab=readme-ov-file#using-debian-as-root-nodejs-20
+## How to restart MagicMirror
 
-## Starting
-
-Follow: https://docs.magicmirror.builders/getting-started/installation.html#manual-installation and https://docs.magicmirror.builders/configuration/autostart.html#using-pm2
-
-Restart:
+Just execute:
 ```
 cd MagicMirror/
 pm2 restart mm
 ```
+
+# Other things
 
 Docker install: https://docs.docker.com/engine/install/debian/ by curl get.docker.com
 
