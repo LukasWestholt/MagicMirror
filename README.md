@@ -7,6 +7,8 @@ username: lukas
 
 Install a fresh OS via Raspberry Pi Imager (64 Bit version) then:
 ``
+sudo apt install screen
+screen -S freshinstall
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y git curl

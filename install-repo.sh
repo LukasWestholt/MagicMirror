@@ -1,6 +1,7 @@
 # Install node, see https://github.com/nodesource/distributions
 curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh
 sudo -E bash nodesource_setup.sh
+rm nodesource_setup.sh
 sudo apt-get install -y nodejs
 node -v
 
@@ -27,8 +28,7 @@ pm2 save
 # See https://github.com/MagicMirrorOrg/MagicMirror/wiki/Configuring-the-Raspberry-Pi
 
 sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart >> /dev/null <<EOF
-@xrandr --output HDMI-1 --rotate left
-wlr-randr --output HDMI-A-1 --transform 90
+@wlr-randr --output HDMI-A-1 --transform 90
 
 @xset s noblank
 @xset s off
