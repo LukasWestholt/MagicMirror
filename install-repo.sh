@@ -27,11 +27,24 @@ pm2 save
 ## Hardware configuration
 # See https://github.com/MagicMirrorOrg/MagicMirror/wiki/Configuring-the-Raspberry-Pi
 
+# For X11
 sudo tee -a /etc/xdg/lxsession/LXDE-pi/autostart >> /dev/null <<EOF
-@wlr-randr --output HDMI-A-1 --transform 90
+@xrandr --output HDMI-1 --rotate left
 
 @xset s noblank
 @xset s off
+EOF
+
+# For Wayland/labwc
+tee -a /home/lukas/config_display.sh >> /dev/null <<EOF
+#!/bin/bash
+export WAYLAND_DISPLAY=wayland-0
+export XDG_RUNTIME_DIR=/run/user/1000
+/usr/bin/wlr-randr --output HDMI-A-1 --on --transform 90
+EOF
+chmod +x /home/lukas/config_display.sh
+sudo tee -a /etc/xdg/labwc/autostart >> /dev/null <<EOF
+/home/lukas/config_display.sh
 EOF
 
 sudo tee -a /etc/rc.local >> /dev/null <<EOF
