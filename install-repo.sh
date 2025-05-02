@@ -10,7 +10,7 @@ npm run install-mm
 
 # Install modules
 cd modules
-(cd MMM-PublicTransportHafas && npm ci) && (cd MMM-Pir && npm install) && (cd MMM-Bring && npm install) && (cd mmm-systemtemperature && npm install) && (cd MMM-Hue-Controller-2 && npm ci)
+(cd MMM-PublicTransportHafas && npm ci) && (cd MMM-Pir && npm install) && (cd MMM-Bring && npm install) && (cd mmm-systemtemperature && npm install) && (cd MMM-Hue-Controller-2 && npm ci) && (cd MMM-Cinestar-FDW && npm install)
 
 # autostart, see https://docs.magicmirror.builders/configuration/autostart.html#using-pm2
 sudo npm install -g pm2

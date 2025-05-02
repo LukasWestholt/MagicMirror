@@ -22,3 +22,6 @@
 [submodule "modules/MMM-Pir"]
 	path = modules/MMM-Pir
 	url = https://github.com/LukasWestholt/MMM-Pir.git
+[submodule "modules/MMM-Cinestar-FDW"]
+	path = modules/MMM-Cinestar-FDW
+	url = https://github.com/LukasWestholt/MMM-Cinestar-FDW.git

@@ -25,6 +25,15 @@ cd MagicMirror/
 pm2 restart mm
 ```
 
+## Add a new module
+
+```
+cd modules
+git submodule add ...
+# git commit and push
+# Add it also to install-repo.sh, config.js and init-repo.sh
+```
+
 # Other things
 
 Docker install: https://docs.docker.com/engine/install/debian/ by curl get.docker.com
