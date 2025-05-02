@@ -57,9 +57,8 @@ Temporary Items
 .directory
 .Trash-*
 
-# Ignore users config file but keep the sample.
-/config/*
-!/config/config.js.sample
+# Ignore users config file but keep the sample and templates.
+/config/*.env
 
 # Vim
 ## swap
