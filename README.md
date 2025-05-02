@@ -31,7 +31,9 @@ pm2 restart mm
 cd modules
 git submodule add ...
 # git commit and push
-# Add it also to install-repo.sh, config.js and init-repo.sh
+# Add it also to install-repo.sh, config.js.template and init-repo.sh
+# On Raspberry execute: cd MagicMirror/modules && git submodule update <module-name>
+# Don't forget "npm install" in new dir.
 ```
 
 # Other things
