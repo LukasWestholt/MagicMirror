@@ -25,3 +25,6 @@
 [submodule "modules/MMM-Cinestar-FDW"]
 	path = modules/MMM-Cinestar-FDW
 	url = https://github.com/LukasWestholt/MMM-Cinestar-FDW.git
+[submodule "modules/MMM-Screencast"]
+	path = modules/MMM-Screencast
+	url = https://github.com/kevinatown/MMM-Screencast.git
