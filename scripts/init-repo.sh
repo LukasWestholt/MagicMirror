@@ -1,4 +1,4 @@
-cd modules
+cd ../modules || exit 1
 
 git submodule add https://github.com/shbatm/MMM-Carousel.git
 git submodule add https://github.com/KristjanESPERANTO/MMM-PublicTransportHafas.git

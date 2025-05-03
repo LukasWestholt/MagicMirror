@@ -1,0 +1,1 @@
+(cd MMM-PublicTransportHafas && npm ci) && (cd MMM-Pir && npm install) && (cd MMM-Bring && npm install) && (cd mmm-systemtemperature && npm install) && (cd MMM-Hue-Controller-2 && npm ci) && (cd MMM-Cinestar-FDW && npm install) && (cd MMM-Screencast && npm install)
