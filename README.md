@@ -25,6 +25,14 @@ cd MagicMirror/
 pm2 restart mm
 ```
 
+## How to update
+
+Just execute:
+```
+cd MagicMirror/
+sh scripts/raspi-repo-updater.sh
+```
+
 ## Add a new module
 
 ```

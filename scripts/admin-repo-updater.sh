@@ -2,7 +2,7 @@
 echo "Update MagicMirror"
 git remote add upstream https://github.com/MagicMirrorOrg/MagicMirror.git
 git fetch upstream
-git merge upstream/master
+git merge upstream/master --no-edit
 echo "Update MagicMirror modules"
 git submodule update --init --recursive --remote
 # or whitelisted:
