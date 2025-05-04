@@ -159,7 +159,7 @@ let config = {
 			config: {
 				debug: false,
 				Display: {
-					timeout: 0.5 * 60 * 1000, // 0.5 minutes
+					timeout: 0.75 * 60 * 1000, // 0.75 minutes
 					animate: true,
 					style: 1,
 					colorFrom: "#FF0000",
