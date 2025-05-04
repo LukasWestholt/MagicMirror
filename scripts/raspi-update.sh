@@ -5,7 +5,7 @@ echo "Deactivate MagicMirror"
 pm2 stop mm
 echo "Update MagicMirror"
 git reset --hard
-git pull
+git pull --recurse-submodules
 npm run install-mm
 echo "Update MagicMirror modules"
 cd modules
