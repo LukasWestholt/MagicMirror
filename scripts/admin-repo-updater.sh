@@ -10,5 +10,5 @@ git submodule update --init --recursive --remote
 # or whitelisted:
 # git submodule update --init --recursive --remote -- modules/MMM-Pir
 echo "Commit MagicMirror module update"
-git add modules/*
-git commit -m "Chore: Update some MMM"
+git add modules/* || echo "Skip ignored files!"
+git commit -m "Chore: Update some MMM" || echo "Failed to commit!"

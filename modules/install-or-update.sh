@@ -9,7 +9,6 @@ declare -A modules=(
   [mmm-systemtemperature]="npm install"
   [MMM-Hue-Controller-2]="npm ci"
   [MMM-Cinestar-FDW]="npm install"
-  [MMM-Screencast]="npm install"
 )
 
 for dir in "${!modules[@]}"; do
