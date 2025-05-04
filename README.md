@@ -40,8 +40,7 @@ cd modules
 git submodule add ...
 # git commit and push
 # Add it also to install-repo.sh, config.js.template and init-repo.sh
-# On Raspberry execute: cd MagicMirror/modules && git submodule update <module-name>
-# Don't forget "npm install" in new dir.
+# On Raspberry execute: scripts/raspi-repo-updater.sh
 ```
 
 # Other things

@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e # abort any time an error occurred
 # Please execute this on a Raspberry Pi
 echo "Update MagicMirror"
 git remote add upstream https://github.com/MagicMirrorOrg/MagicMirror.git

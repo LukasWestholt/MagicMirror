@@ -1,3 +1,5 @@
+#!/bin/bash
+set -e # abort any time an error occurred
 # Install node, see https://github.com/nodesource/distributions
 curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh
 sudo -E bash nodesource_setup.sh

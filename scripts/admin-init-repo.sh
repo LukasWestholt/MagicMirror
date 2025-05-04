@@ -1,4 +1,6 @@
-cd ../modules || exit 1
+#!/bin/bash
+set -e # abort any time an error occurred
+cd ../modules
 
 git submodule add https://github.com/shbatm/MMM-Carousel.git
 git submodule add https://github.com/KristjanESPERANTO/MMM-PublicTransportHafas.git
