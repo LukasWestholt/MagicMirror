@@ -40,23 +40,23 @@ bash scripts/raspi-update.sh
 cd modules
 git submodule add ...
 # git commit and push
-# Add it also to scripts/admin-add-submodules.sh, config/config.js.template and modules/install-or-update.sh
+# Add it also to modules/install-or-update.sh and config/config.js.template
 # On Raspberry execute: scripts/raspi-update.sh
 ```
 
 ## Interesting modules
 
 ```
+https://github.com/GaryLChew/MMM-1-Second-A-Day
 https://github.com/szech/mmm-uk-pollen-forecast
 https://github.com/basti0001/MMM-iHaveBeenThere
-https://github.com/ryanzor/MMM-AirbarHelper
+https://github.com/ryanzor/MMM-AirbarHelper # Outdated, needs hardware
 https://github.com/retroflex/MMM-Overwatch
 https://github.com/ow-api/ovrstat
 https://github.com/idoodler/MMM-RPI-LED
 https://github.com/RaxoCoding/MMM-OTIS
 https://github.com/nout-kleef/MMM-Chess-Daily
 https://github.com/njwilliams/MMM-Faces
-https://github.com/fuerst/MMM-MensaMax
 https://github.com/ngnijland/MMM-text-clock
 https://github.com/splattner/MMM-bernwordclock
 https://github.com/bogomips/MMM-CoupEscooters
@@ -90,9 +90,10 @@ https://github.com/DreamyChloe/MMM-HueControl
 https://github.com/alanshen111/MMM-Facts
 https://github.com/Dennis-Rosenbaum/MMM-Quiz
 https://github.com/gertperdZA/MMM-Afvalwijzer
-https://github.com/KristjanESPERANTO/MMM-Canteen
+
 https://github.com/dathbe/MMM-EarthquakeAlerts
 https://github.com/KristjanESPERANTO/MMM-ApothekenNotdienst
+https://gitlab.com/khassel/MMM-RepoStats
 ```
 
 # Other things

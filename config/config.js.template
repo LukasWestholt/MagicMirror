@@ -257,6 +257,26 @@ let config = {
 			position: "top_right",
 			config: {},
 		},
+    {
+      module: "MMM-Canteen",
+      position: "top_left",
+      config: {
+        canteenName: "Mensa am Park",
+        canteen: 63,
+        status: "students",
+        switchTime: "18:00",
+        showVeggieColumn: true
+      }
+    },
+    {
+      module: "MMM-Canteen",
+      position: "top_right",
+      config: {
+        canteenName: "Elsterbecken",
+        switchTime: "14:00",
+        canteen: 65,
+      }
+    },
     // {
     //   module: 'MMM-Screencast',
     //   position: 'bottom_right', // This position is for a hidden <div /> and not the screencast window

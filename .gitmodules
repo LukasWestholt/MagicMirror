@@ -28,3 +28,6 @@
 [submodule "modules/MMM-Screencast"]
 	path = modules/MMM-Screencast
 	url = https://github.com/kevinatown/MMM-Screencast.git
+[submodule "modules/MMM-Canteen"]
+	path = modules/MMM-Canteen
+	url = https://github.com/KristjanESPERANTO/MMM-Canteen.git
