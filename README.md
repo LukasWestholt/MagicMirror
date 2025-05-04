@@ -14,14 +14,13 @@ sudo apt upgrade -y
 sudo apt install -y git curl
 git clone --depth 3 --recurse-submodules https://github.com/LukasWestholt/MagicMirror.git
 cd MagicMirror
-sh install-repo.sh
+bash scripts/raspi-install.sh
 ``
 
 ## How to restart MagicMirror
 
 Just execute:
 ```
-cd MagicMirror/
 pm2 restart mm
 ```
 
@@ -30,7 +29,7 @@ pm2 restart mm
 Just execute:
 ```
 cd MagicMirror/
-sh scripts/raspi-repo-updater.sh
+bash scripts/raspi-update.sh
 ```
 
 ## Add a new module
@@ -39,8 +38,8 @@ sh scripts/raspi-repo-updater.sh
 cd modules
 git submodule add ...
 # git commit and push
-# Add it also to install-repo.sh, config.js.template and init-repo.sh
-# On Raspberry execute: scripts/raspi-repo-updater.sh
+# Add it also to scripts/admin-add-submodules.sh, config/config.js.template and modules/install-or-update.sh
+# On Raspberry execute: scripts/raspi-update.sh
 ```
 
 # Other things
