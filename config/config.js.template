@@ -165,6 +165,7 @@ let config = {
 					colorFrom: "#FF0000",
 					colorTo: "#00FF00",
 					mode: 3,
+          ecoMode : true,
 					counter: true,
 					lastPresence: true,
 					lastPresenceTimeFormat: "LL H:mm",
@@ -175,10 +176,13 @@ let config = {
 					waylandDisplayName: "wayland-0",
 				},
 				Pir: {
+          animate: true,
 					mode: 1,
-					gpio: 6
+					gpio: 6,
+          triggerMode : "LH"
 				},
 				Motion: {
+          animate: true,
 					deviceId: 0,
 					captureIntervalTime: 1000,
 					scoreThreshold: 100

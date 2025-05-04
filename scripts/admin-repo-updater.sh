@@ -2,7 +2,7 @@
 set -e # abort any time an error occurred
 # Please execute this on a Raspberry Pi
 echo "Update MagicMirror"
-git remote add upstream https://github.com/MagicMirrorOrg/MagicMirror.git
+git remote add upstream https://github.com/MagicMirrorOrg/MagicMirror.git || echo "Skip: remote upstream already exists"
 git fetch upstream
 git merge upstream/master --no-edit
 echo "Update MagicMirror modules"
