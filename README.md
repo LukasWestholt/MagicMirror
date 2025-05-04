@@ -32,6 +32,8 @@ cd MagicMirror/
 bash scripts/raspi-update.sh
 ```
 
+# Custom modules
+
 ## Add a new module
 
 ```
@@ -40,6 +42,57 @@ git submodule add ...
 # git commit and push
 # Add it also to scripts/admin-add-submodules.sh, config/config.js.template and modules/install-or-update.sh
 # On Raspberry execute: scripts/raspi-update.sh
+```
+
+## Interesting modules
+
+```
+https://github.com/szech/mmm-uk-pollen-forecast
+https://github.com/basti0001/MMM-iHaveBeenThere
+https://github.com/ryanzor/MMM-AirbarHelper
+https://github.com/retroflex/MMM-Overwatch
+https://github.com/ow-api/ovrstat
+https://github.com/idoodler/MMM-RPI-LED
+https://github.com/RaxoCoding/MMM-OTIS
+https://github.com/nout-kleef/MMM-Chess-Daily
+https://github.com/njwilliams/MMM-Faces
+https://github.com/fuerst/MMM-MensaMax
+https://github.com/ngnijland/MMM-text-clock
+https://github.com/splattner/MMM-bernwordclock
+https://github.com/bogomips/MMM-CoupEscooters
+https://github.com/grenagit/MMM-VigiCrues
+https://github.com/ottopaulsen/MMM-Tibber
+https://github.com/MichMich/MMM-WatchDog
+https://github.com/AdamMoses-GitHub/MMM-TwitterTrendsByPlace
+https://github.com/mykle1/MMM-HumanClock
+https://github.com/jancalve/MMM-flick-gestures
+https://github.com/mykle1/MMM-PopulationClock
+https://github.com/jboucly/MMM-Pages-Screencast
+https://github.com/Pip1405/MMM-FearAndGreedIndex
+https://github.com/buxxi/MMM-RouterClients
+https://github.com/thomo/MMM-kudos
+https://github.com/mumblebaj/MMM-PhilipsHue
+https://github.com/skuethe/MMM-Spotify
+https://github.com/uxigene/MMM-Chart
+https://github.com/kevinatown/MMM-Screencast
+https://github.com/Tueti/MMM-MovieListings
+https://github.com/MMRIZE/MMM-GroveGestures
+https://github.com/lavolp3/MMM-AVStock
+https://github.com/CFenner/MMM-AirQuality
+https://github.com/ChrisF1976/MMM-Fireworks
+https://github.com/jalibu/MMM-Jast
+https://github.com/PierreGode/MMM-next-episode
+https://github.com/jalibu/MMM-NINA
+https://github.com/XppaiCyberr/MMM-NounsAuction
+https://github.com/Lavve/MMM-MagicMover
+https://github.com/cgillinger/MMM-WeatherEffects
+https://github.com/DreamyChloe/MMM-HueControl
+https://github.com/alanshen111/MMM-Facts
+https://github.com/Dennis-Rosenbaum/MMM-Quiz
+https://github.com/gertperdZA/MMM-Afvalwijzer
+https://github.com/KristjanESPERANTO/MMM-Canteen
+https://github.com/dathbe/MMM-EarthquakeAlerts
+https://github.com/KristjanESPERANTO/MMM-ApothekenNotdienst
 ```
 
 # Other things
