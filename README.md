@@ -3,6 +3,13 @@
 smartmirror.local
 username: lukas
 
+# Local testing in git bash
+``
+npm run install-mm
+export MM_CONFIG_FILE=config/local_config.js
+npm run server
+``
+
 # Fresh install
 
 Install a fresh OS via Raspberry Pi Imager (64 Bit version) then:
