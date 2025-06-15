@@ -3,13 +3,6 @@
 smartmirror.local
 username: lukas
 
-# Local testing in git bash
-``
-npm run install-mm
-export MM_CONFIG_FILE=config/local_config.js
-npm run server
-``
-
 # Fresh install
 
 Install a fresh OS via Raspberry Pi Imager (64 Bit version) then:
@@ -39,7 +32,22 @@ cd MagicMirror/
 bash scripts/raspi-update.sh
 ```
 
-# Custom modules
+# Development custom modules
+
+## Local testing in git bash
+``
+npm run install-mm
+export MM_CONFIG_FILE=config/local_config.js
+npm run server
+``
+
+## Checkout new version of module
+``
+cd modules/<module>
+git fetch
+git checkout origin/main
+``
+
 
 ## Add a new module
 
@@ -51,7 +59,7 @@ git submodule add ...
 # On Raspberry execute: scripts/raspi-update.sh
 ```
 
-## Interesting modules
+## Some example modules
 
 ```
 https://github.com/GaryLChew/MMM-1-Second-A-Day
@@ -70,7 +78,6 @@ https://github.com/bogomips/MMM-CoupEscooters
 https://github.com/grenagit/MMM-VigiCrues
 https://github.com/ottopaulsen/MMM-Tibber
 https://github.com/MichMich/MMM-WatchDog
-https://github.com/AdamMoses-GitHub/MMM-TwitterTrendsByPlace
 https://github.com/mykle1/MMM-HumanClock
 https://github.com/jancalve/MMM-flick-gestures
 https://github.com/mykle1/MMM-PopulationClock
@@ -91,16 +98,19 @@ https://github.com/jalibu/MMM-Jast
 https://github.com/PierreGode/MMM-next-episode
 https://github.com/jalibu/MMM-NINA
 https://github.com/XppaiCyberr/MMM-NounsAuction
-https://github.com/Lavve/MMM-MagicMover
 https://github.com/cgillinger/MMM-WeatherEffects
 https://github.com/DreamyChloe/MMM-HueControl
 https://github.com/alanshen111/MMM-Facts
 https://github.com/Dennis-Rosenbaum/MMM-Quiz
 https://github.com/gertperdZA/MMM-Afvalwijzer
-
 https://github.com/dathbe/MMM-EarthquakeAlerts
 https://github.com/KristjanESPERANTO/MMM-ApothekenNotdienst
-https://gitlab.com/khassel/MMM-RepoStats
+```
+
+## Build these TODO
+```
+Müll Kalender
+Mehr Haltestellen. Weniger trams
 ```
 
 # Other things

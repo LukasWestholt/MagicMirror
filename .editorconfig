@@ -13,3 +13,7 @@ trim_trailing_whitespace = true
 [*.{js,json}]
 indent_size = 4
 indent_style = tab
+
+# Override /modules with no rules (or different rules)
+[modules/**]
+charset = utf-8
