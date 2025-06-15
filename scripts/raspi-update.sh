@@ -4,7 +4,7 @@ set -e # abort any time an error occurred
 echo "Deactivate MagicMirror"
 pm2 stop mm
 echo "Update MagicMirror"
-git reset --hard
+git reset --hard > /dev/null
 git pull --recurse-submodules
 npm run install-mm
 echo "Update MagicMirror modules"
