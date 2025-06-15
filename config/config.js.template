@@ -265,6 +265,7 @@ let config = {
         canteen: 63,
         status: "students",
         switchTime: "18:00",
+				showVeggieColumn: false,
         showOnlyKeywords: ["Veganes Gericht", "WOK"],
       }
     },
@@ -276,6 +277,7 @@ let config = {
         canteen: 65,
         status: "students",
         switchTime: "14:00",
+				showVeggieColumn: false,
         showOnlyKeywords: ["Veganes Gericht", "WOK"],
       }
     },
@@ -287,6 +289,7 @@ let config = {
         canteen: 67,
         status: "students",
         switchTime: "14:00",
+				showVeggieColumn: false,
         showOnlyKeywords: ["Veganes Gericht", "WOK"],
       }
     },
@@ -298,6 +301,7 @@ let config = {
         canteen: 68,
         status: "students",
         switchTime: "14:00",
+				showVeggieColumn: false,
         showOnlyKeywords: ["Veganes Gericht", "WOK"],
       }
     },
