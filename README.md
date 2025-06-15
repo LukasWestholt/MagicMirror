@@ -6,7 +6,7 @@ username: lukas
 # Fresh install
 
 Install a fresh OS via Raspberry Pi Imager (64 Bit version) then:
-``
+```
 sudo apt install screen
 screen -S freshinstall
 sudo apt update
@@ -15,7 +15,7 @@ sudo apt install -y git curl
 git clone --depth 3 --recurse-submodules https://github.com/LukasWestholt/MagicMirror.git
 cd MagicMirror
 bash scripts/raspi-install.sh
-``
+```
 
 ## How to restart MagicMirror
 
@@ -35,19 +35,30 @@ bash scripts/raspi-update.sh
 # Development custom modules
 
 ## Local testing in git bash
-``
+```
 npm run install-mm
 export MM_CONFIG_FILE=config/local_config.js
 npm run server
-``
+```
 
 ## Checkout new version of module
-``
+```
 cd modules/<module>
 git fetch
 git checkout origin/main
-``
+```
 
+## Update MM and all modules
+```
+bash scripts/admin-repo-updater.sh
+```
+
+## Change remote of a module
+```
+# Edit in .gitmodules 
+git submodule sync --recursive
+bash scripts/admin-repo-updater.sh
+```
 
 ## Add a new module
 
