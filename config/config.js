@@ -183,11 +183,12 @@ let config = {
 				showNetwork: false,
 			}
 		},
-		{
-			module: "MMM-Cinestar-FDW",
-			position: "top_right",
-			config: {},
-		},
+		// TODO now working with uncaught exception "hostname=undefined"
+		// {
+		// 	module: "MMM-Cinestar-FDW",
+		// 	position: "top_right",
+		// 	config: {},
+		// },
 		{
 			module: "MMM-Canteen",
 			position: "top_left",
