@@ -9,17 +9,20 @@ const defaults = {
 	address: address,
 	port: port,
 	basePath: "/",
-	kioskmode: false,
 	electronOptions: {},
 	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1"],
+	cors: "disabled", // or "allowAll" or "allowWhitelist"
+	corsDomainWhitelist: [], // example: ["api.mapbox.com"]
 
 	language: "en",
 	logLevel: ["INFO", "LOG", "WARN", "ERROR"],
 	timeFormat: 24,
 	units: "metric",
 	zoom: 1,
-	customCss: "css/custom.css",
+	customCss: "config/custom.css",
 	foreignModulesDir: "modules",
+	defaultModulesDir: "defaultmodules",
+	hideConfigSecrets: false,
 	// httpHeaders used by helmet, see https://helmetjs.github.io/. You can add other/more object values by overriding this in config.js,
 	// e.g. you need to add `frameguard: false` for embedding MagicMirror in another website, see https://github.com/MagicMirrorOrg/MagicMirror/issues/2847
 	httpHeaders: { contentSecurityPolicy: false, crossOriginOpenerPolicy: false, crossOriginEmbedderPolicy: false, crossOriginResourcePolicy: false, originAgentCluster: false },
@@ -62,7 +65,7 @@ const defaults = {
 			position: "middle_center",
 			classes: "xsmall",
 			config: {
-				text: "If you get this message while your config file is already created,<br>" + "it probably contains an error. To validate your config file run in your MagicMirror² directory<br>" + "<pre>npm run config:check</pre>"
+				text: "If you get this message while your config file is already created,<br>" + "it probably contains an error. To validate your config file run in your MagicMirror² directory<br>" + "<pre>node --run config:check</pre>"
 			}
 		},
 		{

@@ -7,6 +7,114 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ❤️ **Donate:** Enjoying MagicMirror²? [Please consider a donation!](https://magicmirror.builders/#donate) With your help we can continue to improve the MagicMirror².
 
+## Obsolete
+
+This file is no longer being updated. Release notes are now automatically generated via a GitHub action.
+
+## [2.33.0] - 2025-10-01
+
+Thanks to: @Crazylegstoo, @dathbe, @m-idler, @plebcity, @khassel, @KristjanESPERANTO, @rejas and @sdetweil!
+
+> ⚠️ This release needs nodejs version `v22.18.0 or higher`
+
+### Added
+
+- Add configuration option for `User-Agent`, used by calendar & news module (#3255)
+- [linter] Add prettier plugin for nunjuck templates (#3887)
+- [core] Add clear log for occupied port at startup (#3890)
+
+### Changed
+
+- [clock] Add CSS to prevent line breaking of sunset/sunrise time display (#3816)
+- [core] Enhance system information logging format and include additional env and RAM details (#3839, #3843)
+- [refactor] Add new file `js/module_functions.js` to move code used in several modules to one place (#3837)
+- [refactor] Use global.root_path where possible and add tests for config:check (#3883, #3885, #3886, #3889)
+- [tests] refactor: simplify jest config file (#3844)
+- [tests] refactor: extract constants for weather electron tests (#3845)
+- [tests] refactor: add `setupDOMEnvironment` helper function to eliminate repetitive JSDOM setup code (#3860)
+- [tests] replace `console` with `Log` in calendar `debug.js` to avoid exception in eslint config (#3846)
+- [tests] speed up e2e tests, cleanup and stabilize weather e2e tests, update snapshot url (#3847, #3848, #3861)
+- [tests] refactor translation tests (#3866)
+  - Remove `sinon` dependency in favor of Jest native mocking
+  - Unify test helper functions across translation test suites
+  - Rename `setupDOMEnvironment` to `createTranslationTestEnvironment` for consistency
+  - Simplify DOM setup by removing unnecessary Promise/async patterns
+  - Avoid potential port conflicts by using port 3001 for translator unit tests
+  - Improve test reliability and maintainability
+- [tests] add alert module tests for different welcome_message configurations (#3867)
+- [lint-staged] use `prettier --write --ignore-unknown` in `lint-staged` to avoid errors on unsupported files (#3888)
+
+### Updated
+
+- [calendar] Update defaultSymbol name and also the link to the icon search site (#3879)
+- [core] Update dependencies including electron to v38 as well as github actions (#3831, #3849, #3857, #3858, #3872, #3876, #3882, #3891, #3896)
+- [weather] Update feels_like temperature calculation formula (#3869)
+- [weather] Update null value handling for weather type (#3892)
+- [layout] Update styles for weather and calendar (#3894)
+
+### Fixed
+
+- [calendar] Fixed broken unittest that only broke on the 1st of July and 1st of january (#3830)
+- [clock] Fixed missing icons when no other modules with icons is loaded (#3834)
+- [weather] Fixed handling of empty values in weathergov providers handling of precipitationAmount (#3859)
+- [calendar] Fix regression handling of limit days (#3840)
+- [calendar] Fixed regression of calendarfetcherutils.shouldEventBeExcluded (#3841)
+- [core] Fixed socket.io timeout when server is slow to send notification, notification lost at client (#3380)
+- [tests] refactor AnimateCSS tests after jsdom 27 upgrade (#3891)
+- [weather] Use `apparent_temperature` data from openmeteo's hourly weather for current feelsLikeTemp (#3868).
+- [weather] Updated envcanada Provider to use new database/URL schema for accessing weather data (#3878).
+
+## [2.32.0] - 2025-07-01
+
+Thanks to: @bughaver, @bugsounet, @khassel, @KristjanESPERANTO, @plebcity, @rejas, @sdetweil.
+
+> ⚠️ This release needs nodejs version `v22.14.0 or higher`
+
+### Added
+
+- [config] Allow to change module order for final renderer (or dynamically with CSS): Feature `order` in config (#3762)
+- [clock] Added option 'disableNextEvent' to hide next sun event (#3769)
+- [clock] Implement short syntax for clock week (#3775)
+
+### Changed
+
+- [refactor] Simplify module loading process (#3766)
+- Use `node --run` instead of `npm run` (#3764) and adapt `start:dev` script (#3773)
+- [workflow] Run linter and spellcheck with LTS node version (#3767)
+- [workflow] Split "Run test" step into two steps for more clarity (#3767)
+- [linter] Review linter setup (#3783)
+  - Fix command to lint markdown in `CONTRIBUTING.md`
+  - Re-activate JSDoc linting and fix linting issues
+  - Refactor ESLint config to use `defineConfig` and `globalIgnores`
+  - Replace `eslint-plugin-import` with `eslint-plugin-import-x`
+  - Switch Stylelint config to flat format and simplify Stylelint scripts
+- [workflow] Replace Node.js version v23 with v24 (#3770)
+- [refactor] Replace deprecated constants `fs.F_OK` and `fs.R_OK` (#3789)
+- [refactor] Replace `ansis` with built-in function `util.styleText` (#3793)
+- [core] Integrate stuff from `vendor` and `fonts` folders into main `package.json`, simplifies install and maintaining dependencies (#3795, #3805)
+- [l10n] Complete translations (with the help of translation tools) (#3794)
+- [refactor] Refactored `calendarfetcherutils` in Calendar module to handle timezones better (#3806)
+  - Removed as many of the date conversions as possible
+  - Use `moment-timezone` when calculating recurring events, this will fix problems from the past with offsets and DST not being handled properly
+  - Added some tests to test the behavior of the refactored methods to make sure the correct event dates are returned
+- [linter] Enable ESLint rule `no-console` and replace `console` with `Log` in some files (#3810)
+- [tests] Review and refactor translation tests (#3792)
+
+### Fixed
+
+- [fix] Handle spellcheck issues (#3783)
+- [calendar] fix fullday event rrule until with timezone offset (#3781)
+- [feat] Add rule `no-undef` in config file validation to fix #3785 (#3786)
+- [fonts] Fix `roboto.css` to avoid error message `Unknown descriptor 'var(' in @font-face rule.` in firefox console (#3787)
+- [tests] Fix and refactor e2e test `Same keys` in `translations_spec.js` (#3809)
+- [tests] Fix e2e tests newsfeed and calendar to exit without open handles (#3817)
+
+### Updated
+
+- [core] Update dependencies including electron to v36 (#3774, #3788, #3811, #3804, #3815, #3823)
+- [core] Update package type to `commonjs`
+- [logger] Review factory code part: use `switch/case` instead of `if/else if` (#3812)
+
 ## [2.31.0] - 2025-04-01
 
 Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANTO, @MagMar94, @mixasgr, @n8many, @OWL4C, @rejas, @savvadam, @sdetweil.
@@ -16,7 +124,7 @@ Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANT
 ### Added
 
 - Add CSS support to the digital clock hour/minute/second through the use of the classes `clock-hour-digital`, `clock-minute-digital`, and `clock-second-digital`.
-- Add Arabic (#3719) and Esperanto translation.
+- Add Arabic (#3719) and Esperanto translation (#3740)
 - Mark option `secondsColor` as deprecated in clock module.
 - Add Greek translation to Alerts module.
 - [newsfeed] Add specific ignoreOlderThan value (override) per feed (#3360)
@@ -26,7 +134,7 @@ Thanks to: @Developer-Incoming, @eltociear, @geraki, @khassel, @KristjanESPERANT
 
 ### Changed
 
-- [core] starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set wayland is used) (#3677)
+- [core] Starting clientonly now checks for needed env var `WAYLAND_DISPLAY` or `DISPLAY` and starts electron with needed parameters (if both are set Wayland is used) (#3677)
 - [core] Optimize systeminformation calls and output (#3689)
 - [core] Add issue templates for feature requests and bug reports (#3695)
 - [core] Adapt `start:x11:dev` script
@@ -64,7 +172,7 @@ Thanks to: @xsorifc28, @HeikoGr, @bugsounet, @khassel, @KristjanESPERANTO, @reja
 
 ### Added
 
-- [core] Add wayland and windows start options to `package.json` (#3594)
+- [core] Add Wayland and Windows start options to `package.json` (#3594)
 - [docs] Add step for npm publishing in release process (#3595)
 - [core] Add GitHub workflow to run spellcheck a few days before each release (#3623)
 - [core] Add test flag to `index.html` to pass to module js for test mode detection (needed by #3630)
@@ -209,7 +317,7 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 ### Added
 
 - Output of system information to the console for troubleshooting (#3328 and #3337), ignore errors under aarch64 (#3349)
-- [core] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
+- [linter] Add `eslint-plugin-package-json` to lint the `package.json` files (#3368)
 - [weather] `showHumidity` config is now a string describing where to show this element. Supported values: "wind", "temp", "feelslike", "below", "none". (#3330)
 - electron-rebuild test suite for electron and 3rd party modules compatibility (#3392)
 - Create MM² icon and attach it to electron process (#3407)
@@ -226,12 +334,12 @@ For more info, please read the following post: [A New Chapter for MagicMirror: T
 - Update translations for estonian (#3371)
 - Update electron to v29 and update other dependencies
 - [calendar] fullDay events over several days now show the left days from the first day on and 'today' on the last day
-- Update layout of current weather indoor values
+- [weather] Update layout of current weather indoor values
 
 ### Fixed
 
 - [weather] Correct apiBase of weathergov weatherProvider to match documentation (#2926)
-- Worked around several issues in the RRULE library that were causing deleted calender events to still show, some
+- Worked around several issues in the RRULE library that were causing deleted calendar events to still show, some
   initial and recurring events to not show, and some event times to be off an hour. (#3291)
 - Skip changelog requirement when running tests for dependency updates (#3320)
 - Display precipitation probability when it is 0% instead of blank/empty (#3345)
@@ -371,7 +479,7 @@ Special thanks to @khassel, @rejas and @sdetweil for taking over most (if not al
 - Added UV Index to hourly and current Weather, with support for Openmeteo
 - Added tests for serveronly
 - Set Timezone `Europe/Berlin` in unit tests (needed for new formatTime tests)
-- Added no-param-reassign eslint rule and fix warnings
+- [linter] Added no-param-reassign eslint rule and fix warnings
 - [updatenotification] Added `sendUpdatesNotifications` feature. Broadcast update with `UPDATES` notification to other modules
 - [updatenotification] Allow force scanning with `SCAN_UPDATES` notification from other modules
 - Added per-calendar fetchInterval
@@ -636,7 +744,7 @@ Special thanks to the following contributors: @AmpioRosso, @eouia, @fewieden, @j
 ### Fixed
 
 - Fixed wrong file `kr.json` to `ko.json`. Use language code 'ko' instead of 'kr' for Korean language.
-- Fixed `feels_like` data from openweathermap's current weather being ignored (#2678).
+- [weather] Fixed `feels_like` data from openweathermap's current weather being ignored (#2678).
 - Fixed chaotic newsfeed display after network connection loss thanks to @jalibu (#2638).
 - Fixed incorrect time zone correction of recurring full day events (#2632 and #2634).
 - Fixed e2e tests by increasing testTimeout.
@@ -674,7 +782,7 @@ Special thanks to the following contributors: @apiontek, @eouia, @jupadin, @khas
 - Actually test all js and css files when lint script is run.
 - Updated jsdocs and print warnings during testing too.
 - Updated weathergov provider to try fetching not just current, but also forecast, when API URLs available.
-- Refactored clock layout.
+- [clock] Refactored clock layout.
 - Refactored methods from weather-providers into weatherobject (isDaytime, updateSunTime).
 - Use of `logger.js` in jest tests.
 - Run prettier over all relevant files.
@@ -1470,7 +1578,7 @@ A huge, huge, huge thanks to user @fewieden for all his hard work on the new `we
 ### Fixed
 
 - Fix instruction in README for using automatically installer script.
-- Bug of duplicated compliments as described in [here](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
+- Bug of [duplicated compliments](https://forum.magicmirror.builders/topic/2381/compliments-module-stops-cycling-compliments).
 - Fix double message about port when server is starting
 - Corrected Swedish translations for TODAY/TOMORROW/DAYAFTERTOMORROW.
 - Removed unused import from js/electron.js
@@ -1720,6 +1828,8 @@ It includes (but is not limited to) the following features:
 
 This was part of the blogpost: [https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the](https://michaelteeuw.nl/post/83916869600/magic-mirror-part-vi-production-of-the)
 
+[2.33.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.32.0...v2.33.0
+[2.32.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.31.0...v2.32.0
 [2.31.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.30.0...v2.31.0
 [2.30.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.29.0...v2.30.0
 [2.29.0]: https://github.com/MagicMirrorOrg/MagicMirror/compare/v2.28.0...v2.29.0

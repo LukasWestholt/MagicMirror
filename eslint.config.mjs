@@ -1,16 +1,15 @@
-import eslintPluginImport from "eslint-plugin-import";
-import eslintPluginJest from "eslint-plugin-jest";
-import eslintPluginJs from "@eslint/js";
-import eslintPluginPackageJson from "eslint-plugin-package-json";
-import eslintPluginStylistic from "@stylistic/eslint-plugin";
+import {defineConfig, globalIgnores} from "eslint/config";
 import globals from "globals";
+import {flatConfigs as importX} from "eslint-plugin-import-x";
+import js from "@eslint/js";
+import jsdocPlugin from "eslint-plugin-jsdoc";
+import {configs as packageJsonConfigs} from "eslint-plugin-package-json";
+import playwright from "eslint-plugin-playwright";
+import stylistic from "@stylistic/eslint-plugin";
+import vitest from "@vitest/eslint-plugin";
 
-const config = [
-	eslintPluginImport.flatConfigs.recommended,
-	eslintPluginJest.configs["flat/recommended"],
-	eslintPluginJs.configs.recommended,
-	eslintPluginPackageJson.configs.recommended,
-	eslintPluginStylistic.configs.all,
+export default defineConfig([
+	globalIgnores(["config/**", "modules/**/*", "js/positions.js", "tests/configs/config_variables.js"]),
 	{
 		files: ["**/*.js"],
 		languageOptions: {
@@ -18,7 +17,6 @@ const config = [
 			globals: {
 				...globals.browser,
 				...globals.node,
-				...globals.jest,
 				Log: "readonly",
 				MM: "readonly",
 				Module: "readonly",
@@ -26,11 +24,11 @@ const config = [
 				moment: "readonly"
 			}
 		},
+		extends: [importX.recommended, js.configs.recommended, jsdocPlugin.configs["flat/recommended"], stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": ["error", "consistent"],
 			"@stylistic/arrow-parens": ["error", "always"],
 			"@stylistic/brace-style": "off",
-			"@stylistic/comma-dangle": ["error", "never"],
 			"@stylistic/dot-location": ["error", "property"],
 			"@stylistic/function-call-argument-newline": ["error", "consistent"],
 			"@stylistic/function-paren-newline": ["error", "consistent"],
@@ -52,18 +50,12 @@ const config = [
 			"@stylistic/space-before-function-paren": ["error", "always"],
 			"@stylistic/spaced-comment": "off",
 			"dot-notation": "error",
-			eqeqeq: "error",
+			eqeqeq: ["error", "always", {null: "ignore"}],
 			"id-length": "off",
-			"import/extensions": "error",
-			"import/newline-after-import": "error",
-			"import/order": "error",
+			"import-x/extensions": "error",
+			"import-x/newline-after-import": "error",
+			"import-x/order": "error",
 			"init-declarations": "off",
-			"jest/consistent-test-it": "warn",
-			"jest/no-done-callback": "warn",
-			"jest/prefer-expect-resolves": "warn",
-			"jest/prefer-mock-promise-shorthand": "warn",
-			"jest/prefer-to-be": "warn",
-			"jest/prefer-to-have-length": "warn",
 			"max-lines-per-function": ["warn", 400],
 			"max-statements": "off",
 			"no-global-assign": "off",
@@ -76,15 +68,27 @@ const config = [
 			"no-throw-literal": "error",
 			"no-undefined": "off",
 			"no-unneeded-ternary": "error",
-			"no-unused-vars": "off",
 			"no-useless-return": "error",
 			"no-warning-comments": "off",
 			"object-shorthand": ["error", "methods"],
 			"one-var": "off",
-			"prefer-destructuring": "off",
 			"prefer-template": "error",
+			"require-await": "error",
 			"sort-keys": "off"
 		}
+	},
+	{
+		files: ["**/*.js"],
+		ignores: [
+			"clientonly/index.js",
+			"js/logger.js",
+			"tests/**/*.js"
+		],
+		rules: {"no-console": "error"}
+	},
+	{
+		files: ["**/package.json"],
+		extends: [packageJsonConfigs.recommended]
 	},
 	{
 		files: ["**/*.mjs"],
@@ -95,19 +99,57 @@ const config = [
 			},
 			sourceType: "module"
 		},
+		extends: [importX.recommended, js.configs.all, stylistic.configs.all],
 		rules: {
 			"@stylistic/array-element-newline": "off",
 			"@stylistic/indent": ["error", "tab"],
+			"@stylistic/object-property-newline": ["error", {allowAllPropertiesOnSameLine: true}],
 			"@stylistic/padded-blocks": ["error", "never"],
 			"@stylistic/quote-props": ["error", "as-needed"],
-			"func-style": "off",
-			"import/namespace": "off",
-			"import/no-unresolved": "off",
+			"import-x/no-unresolved": ["error", {ignore: ["eslint/config"]}],
 			"max-lines-per-function": ["error", 100],
 			"no-magic-numbers": "off",
-			"one-var": "off",
-			"prefer-destructuring": "off",
-			"sort-keys": "error"
+			"one-var": ["error", "never"],
+			"sort-keys": "off"
+		}
+	},
+	{
+		files: ["tests/**/*.js"],
+		languageOptions: {
+			globals: {
+				...vitest.environments.env.globals
+			}
+		},
+		extends: [vitest.configs.recommended],
+		rules: {
+			"vitest/consistent-test-it": "error",
+			"vitest/expect-expect": [
+				"error",
+				{
+					assertFunctionNames: [
+						"expect",
+						"testElementLength",
+						"testTextContain",
+						"doTest",
+						"runAnimationTest",
+						"waitForAnimationClass",
+						"assertNoAnimationWithin"
+					]
+				}
+			],
+			"vitest/max-nested-describe": ["error", {max: 3}],
+			"vitest/prefer-to-be": "error",
+			"vitest/prefer-to-have-length": "error",
+			"max-lines-per-function": "off"
+		}
+	},
+	{
+		files: ["tests/unit/modules/default/weather/providers/*.js"],
+		rules: {
+			"import-x/namespace": "off",
+			"import-x/named": "off",
+			"import-x/default": "off",
+			"import-x/extensions": "off"
 		}
 	},
 	{
@@ -117,8 +159,17 @@ const config = [
 		}
 	},
 	{
-		ignores: ["config/**", "modules/**/*", "!modules/default/**", "js/positions.js"]
-	}
-];
+		files: ["tests/e2e/**/*.js"],
+		extends: [playwright.configs["flat/recommended"]],
+		rules: {
 
-export default config;
+			/*
+			 * Tests use Vitest-style plain beforeAll()/afterAll() calls, not Playwright's
+			 * test.beforeAll() style. The rule incorrectly treats all plain hook calls
+			 * as the same unnamed type, flagging the second hook as a duplicate.
+			 */
+			"playwright/no-duplicate-hooks": "off",
+			"playwright/no-standalone-expect": "off"
+		}
+	}
+]);

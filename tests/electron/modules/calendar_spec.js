@@ -22,6 +22,20 @@ describe("Calendar module", () => {
 		return await loc.count();
 	};
 
+	/**
+	 * Use this for debugging broken tests, it will console log the text of the calendar module
+	 * @returns {Promise<void>}
+	 */
+	// eslint-disable-next-line no-unused-vars
+	const logAllText = async () => {
+		expect(global.page).not.toBeNull();
+		const loc = await global.page.locator(".calendar .event");
+		const elem = loc.first();
+		await elem.waitFor();
+		expect(elem).not.toBeNull();
+		console.log(await loc.allInnerTexts());
+	};
+
 	const first = 0;
 	const second = 1;
 	const third = 2;
@@ -37,8 +51,29 @@ describe("Calendar module", () => {
 		return true;
 	};
 
+	const defaultCalendarNow = "08 Oct 2024 12:30:00 GMT-07:00";
+	const defaultCalendarTimeZone = "America/Chicago";
+	const showEndConfigPath = "tests/configs/modules/calendar/calendarShowEndConfigs.js";
+
+	const startCalendarShowEndScenario = async (scenario, now = defaultCalendarNow, timeZone = defaultCalendarTimeZone) => {
+		process.env.MM_CALENDAR_SHOWEND_SCENARIO = scenario;
+		await helpers.startApplication(showEndConfigPath, now, [], timeZone);
+	};
+
+	const expectFirstEventTimeCell = async ({ scenario, expectedTime, now = defaultCalendarNow, timeZone = defaultCalendarTimeZone }) => {
+		await startCalendarShowEndScenario(scenario, now, timeZone);
+		await expect(doTestTableContent(".calendar .event", ".time", expectedTime, first)).resolves.toBe(true);
+	};
+
+	const getFirstEventTimeText = async () => {
+		const timeCell = global.page.locator(".calendar .event .time").locator(`nth=${first}`);
+		await timeCell.waitFor({ state: "visible" });
+		return (await timeCell.textContent()) || "";
+	};
+
 	afterEach(async () => {
 		await helpers.stopApplication();
+		delete process.env.MM_CALENDAR_SHOWEND_SCENARIO;
 	});
 
 	describe("Test css classes", () => {
@@ -82,6 +117,10 @@ describe("Calendar module", () => {
 	describe("rrule", () => {
 		it("Issue #3393 recurrence dates past rrule until date", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/rrule_until.js", "07 Mar 2024 10:38:00 GMT-07:00", [], "America/Los_Angeles");
+			await expect(doTestCount()).resolves.toBe(1);
+		});
+		it("Issue #3781 recurrence rrule until with date only uses timezone offset incorrectly", async () => {
+			await helpers.startApplication("tests/configs/modules/calendar/fullday_until.js", "01 May 2025", [], "America/Los_Angeles");
 			await expect(doTestCount()).resolves.toBe(1);
 		});
 	});
@@ -149,19 +188,6 @@ describe("Calendar module", () => {
          * RRULE TESTS:
          * Add any tests that check rrule functionality here.
          */
-	describe("sliceMultiDayEvents", () => {
-		it("Issue #3452 split multiday in Europe", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEvents.js", "01 Sept 2024 10:38:00 GMT+02:00", [], "Europe/Berlin");
-			expect(global.page).not.toBeNull();
-			const loc = await global.page.locator(".calendar .event");
-			const elem = loc.first();
-			await elem.waitFor();
-			expect(elem).not.toBeNull();
-			const cnt = await loc.count();
-			expect(cnt).toBe(6);
-		});
-	});
-
 	describe("sliceMultiDayEvents direct count", () => {
 		it("Issue #3452 split multiday in Europe", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/sliceMultiDayEvents.js", "01 Sept 2024 10:38:00 GMT+02:00", [], "Europe/Berlin");
@@ -193,21 +219,30 @@ describe("Calendar module", () => {
 	describe("berlin late in day event moved, viewed from berlin", () => {
 		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", [], "Europe/Berlin");
-			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 23:00-00:00", last)).resolves.toBe(true);
+			await expect(doTestCount()).resolves.toBe(3);
+			await expect(doTestTableContent(".calendar .event", ".time", "22nd.Oct, 23:00-00:00", first)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "23rd.Oct, 23:00-00:00", second)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 23:00-00:00", third)).resolves.toBe(true);
 		});
 	});
 
 	describe("berlin late in day event moved, viewed from sydney", () => {
 		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", [], "Australia/Sydney");
-			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 01:00-02:00", last)).resolves.toBe(true);
+			await expect(doTestCount()).resolves.toBe(3);
+			await expect(doTestTableContent(".calendar .event", ".time", "23rd.Oct, 08:00-09:00", first)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 08:00-09:00", second)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 08:00-09:00", third)).resolves.toBe(true);
 		});
 	});
 
 	describe("berlin late in day event moved, viewed from chicago", () => {
 		it("Issue #unknown rrule ETC+2 close to timezone edge", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/end_of_day_berlin_moved.js", "08 Oct 2024 12:30:00 GMT+02:00", [], "America/Chicago");
-			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 16:00-17:00", last)).resolves.toBe(true);
+			await expect(doTestCount()).resolves.toBe(3);
+			await expect(doTestTableContent(".calendar .event", ".time", "22nd.Oct, 16:00-17:00", first)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "23rd.Oct, 16:00-17:00", second)).resolves.toBe(true);
+			await expect(doTestTableContent(".calendar .event", ".time", "24th.Oct, 16:00-17:00", third)).resolves.toBe(true);
 		});
 	});
 
@@ -270,7 +305,7 @@ describe("Calendar module", () => {
 
 	describe("one event no end display", () => {
 		it("don't display end", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_no_display_end.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await startCalendarShowEndScenario("event_with_time_over_multiple_days_non_repeating_no_display_end");
 			// just
 			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00", first)).resolves.toBe(true);
 		});
@@ -278,9 +313,74 @@ describe("Calendar module", () => {
 
 	describe("display end display end", () => {
 		it("display end", async () => {
-			await helpers.startApplication("tests/configs/modules/calendar/event_with_time_over_multiple_days_non_repeating_display_end.js", "08 Oct 2024 12:30:00 GMT-07:00", [], "America/Chicago");
+			await startCalendarShowEndScenario("event_with_time_over_multiple_days_non_repeating_display_end");
 			// just
 			await expect(doTestTableContent(".calendar .event", ".time", "25th.Oct, 20:00-26th.Oct, 06:00", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("showEnd for timed multi-day events", () => {
+		const timedMultiDayCases = [
+			{
+				name: "relative timeFormat shows start and end for timed multi-day events",
+				scenario: "event_with_time_over_multiple_days_non_repeating_display_end_relative",
+				expectedTime: "25th.Oct, 20:00-26th.Oct, 06:00"
+			},
+			{
+				name: "dateheaders timeFormat shows end for timed multi-day events",
+				scenario: "event_with_time_over_multiple_days_non_repeating_display_end_dateheaders",
+				expectedTime: "20:00-06:00"
+			}
+		];
+
+		it.each(timedMultiDayCases)("$name", async (testCase) => {
+			expect.hasAssertions();
+			await expectFirstEventTimeCell(testCase);
+		});
+	});
+
+	describe("showEnd for timed same-day events", () => {
+		const timedSameDaySimpleCases = [
+			{
+				name: "absolute timeFormat shows start and end time without repeating date",
+				scenario: "event_with_time_same_day_yearly_display_end_absolute",
+				expectedTime: "25th.Oct, 20:00-22:00"
+			},
+			{
+				name: "absolute timeFormat with time in dateFormat does not duplicate start time",
+				scenario: "event_with_time_same_day_yearly_display_end_absolute_dateformat_with_time",
+				expectedTime: "25th.Oct, 20:00-22:00"
+			},
+			{
+				name: "relative timeFormat shows start and end time without repeating date",
+				scenario: "event_with_time_same_day_yearly_display_end_relative",
+				expectedTime: "25th.Oct, 20:00-22:00"
+			},
+			{
+				name: "dateheaders timeFormat shows start and end time only",
+				scenario: "event_with_time_same_day_yearly_display_end_dateheaders",
+				expectedTime: "20:00-22:00"
+			}
+		];
+
+		it.each(timedSameDaySimpleCases)("$name", async (testCase) => {
+			expect.hasAssertions();
+			await expectFirstEventTimeCell(testCase);
+		});
+
+		it("absolute timeFormat with dateFormat LLL does not duplicate start time", async () => {
+			await startCalendarShowEndScenario("event_with_time_same_day_yearly_display_end_absolute_dateformat_lll");
+			const timeText = await getFirstEventTimeText();
+			const timeTokens = timeText.match(/\d{1,2}:\d{2}(?:\s?[AP]M)?/gi) || [];
+			expect(timeTokens).toHaveLength(2);
+			expect(timeText).toContain("-");
+		});
+
+		it("relative timeFormat with hideTime does not show start or end times", async () => {
+			await startCalendarShowEndScenario("event_with_time_same_day_yearly_display_end_relative_hide_time");
+			const timeText = await getFirstEventTimeText();
+			expect(timeText).toContain("25th.Oct");
+			expect(timeText.match(/\d{1,2}:\d{2}(?:\s?[AP]M)?/gi) || []).toHaveLength(0);
 		});
 	});
 
@@ -299,6 +399,32 @@ describe("Calendar module", () => {
 		it("get 12 with maxentries set to 1", async () => {
 			await helpers.startApplication("tests/configs/modules/calendar/countCalendarEvents.js", "01 Jan 2024 12:30:00 GMT-076:00", [], "America/Chicago");
 			await expect(doTestTableContent(".testNotification", ".elementCount", "12", first)).resolves.toBe(true);
+		});
+	});
+
+	describe("showEnd for multi-day full-day events", () => {
+		const fullDayShowEndCases = [
+			{
+				name: "relative timeFormat shows start and end date",
+				scenario: "fullday_multiday_showend_relative",
+				expectedTime: "25th.Oct-30th.Oct"
+			},
+			{
+				name: "dateheaders timeFormat shows end date in time cell",
+				scenario: "fullday_multiday_showend_dateheaders",
+				expectedTime: "-30th.Oct"
+			},
+			{
+				name: "absolute timeFormat with nextDaysRelative shows relative label and end date",
+				scenario: "fullday_multiday_showend_nextdaysrelative",
+				expectedTime: "Tomorrow-30th.Oct",
+				now: "24 Oct 2024 12:30:00 GMT-07:00"
+			}
+		];
+
+		it.each(fullDayShowEndCases)("$name", async (testCase) => {
+			expect.hasAssertions();
+			await expectFirstEventTimeCell(testCase);
 		});
 	});
 });

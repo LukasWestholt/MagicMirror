@@ -1,6 +1,7 @@
 const express = require("express");
 const Log = require("logger");
 const Class = require("./class");
+const { replaceSecretPlaceholder } = require("#server_functions");
 
 const NodeHelper = Class.extend({
 	init () {
@@ -27,7 +28,7 @@ const NodeHelper = Class.extend({
 	/**
 	 * This method is called when a socket notification arrives.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*}  payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 */
 	socketNotificationReceived (notification, payload) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
@@ -88,7 +89,17 @@ const NodeHelper = Class.extend({
 		io.of(this.name).on("connection", (socket) => {
 			// register catch all.
 			socket.onAny((notification, payload) => {
-				this.socketNotificationReceived(notification, payload);
+				if (config?.hideConfigSecrets && payload && typeof payload === "object") {
+					try {
+						const payloadStr = replaceSecretPlaceholder(JSON.stringify(payload));
+						this.socketNotificationReceived(notification, JSON.parse(payloadStr));
+					} catch (e) {
+						Log.error("Error substituting variables in payload: ", e);
+						this.socketNotificationReceived(notification, payload);
+					}
+				} else {
+					this.socketNotificationReceived(notification, payload);
+				}
 			});
 		});
 	}
@@ -113,8 +124,11 @@ NodeHelper.checkFetchError = function (error) {
 	let error_type = "MODULE_ERROR_UNSPECIFIED";
 	if (error.code === "EAI_AGAIN") {
 		error_type = "MODULE_ERROR_NO_CONNECTION";
-	} else if (error.message === "Unauthorized") {
-		error_type = "MODULE_ERROR_UNAUTHORIZED";
+	} else {
+		const message = typeof error.message === "string" ? error.message.toLowerCase() : "";
+		if (message.includes("unauthorized") || message.includes("http 401") || message.includes("http 403")) {
+			error_type = "MODULE_ERROR_UNAUTHORIZED";
+		}
 	}
 	return error_type;
 };

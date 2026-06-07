@@ -6,7 +6,6 @@ updates:
       interval: "weekly"
     target-branch: "develop"
     labels:
-      - "Skip Changelog"
       - "dependencies"
 
   - package-ecosystem: "npm"
@@ -15,26 +14,5 @@ updates:
       interval: "monthly"
     target-branch: "develop"
     labels:
-      - "Skip Changelog"
-      - "dependencies"
-      - "javascript"
-
-  - package-ecosystem: "npm"
-    directory: "/vendor"
-    schedule:
-      interval: "monthly"
-    target-branch: "develop"
-    labels:
-      - "Skip Changelog"
-      - "dependencies"
-      - "javascript"
-
-  - package-ecosystem: "npm"
-    directory: "/fonts"
-    schedule:
-      interval: "monthly"
-    target-branch: "develop"
-    labels:
-      - "Skip Changelog"
       - "dependencies"
       - "javascript"

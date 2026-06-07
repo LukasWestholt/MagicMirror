@@ -1,4 +1,4 @@
-/* global Loader, defaults, Translator, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions */
+/* global Loader, addAnimateCSS, removeAnimateCSS, AnimateCSSIn, AnimateCSSOut, modulePositions, io */
 
 const MM = (function () {
 	let modules = [];
@@ -29,6 +29,8 @@ const MM = (function () {
 			if (typeof module.data.classes === "string") {
 				dom.className = `module ${dom.className} ${module.data.classes}`;
 			}
+
+			dom.style.order = (typeof module.data.order === "number" && Number.isInteger(module.data.order)) ? module.data.order : 0;
 
 			dom.opacity = 0;
 			wrapper.appendChild(dom);
@@ -88,7 +90,7 @@ const MM = (function () {
 	/**
 	 * Send a notification to all modules.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 * @param {Module} [sendTo] The (optional) module to send the notification to.
 	 */
@@ -260,13 +262,12 @@ const MM = (function () {
 	 * Hide the module.
 	 * @param {Module} module The module to hide.
 	 * @param {number} speed The speed of the hide animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	const hideModule = function (module, speed, callback, options = {}) {
 		// set lockString if set in options.
 		if (options.lockString) {
-			// Log.log("Has lockstring: " + options.lockString);
 			if (module.lockStrings.indexOf(options.lockString) === -1) {
 				module.lockStrings.push(options.lockString);
 			}
@@ -345,7 +346,7 @@ const MM = (function () {
 	 * Show the module.
 	 * @param {Module} module The module to show.
 	 * @param {number} speed The speed of the show animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	const showModule = function (module, speed, callback, options = {}) {
@@ -407,7 +408,7 @@ const MM = (function () {
 			updateWrapperStates();
 
 			// Waiting for DOM-changes done in updateWrapperStates before we can start the animation.
-			const dummy = moduleWrapper.parentElement.parentElement.offsetHeight;
+			void moduleWrapper.parentElement.parentElement.offsetHeight;
 			moduleWrapper.style.opacity = 1;
 
 			if (haveAnimateName) {
@@ -463,22 +464,34 @@ const MM = (function () {
 				}
 			});
 
-			wrapper.style.display = showWrapper ? "block" : "none";
+			// move container definitions to main CSS
+			wrapper.className = showWrapper ? "container" : "container hidden";
 		});
 	};
 
 	/**
-	 * Loads the core config and combines it with the system defaults.
+	 * Loads the core config from the server (already combined with the system defaults).
 	 */
-	const loadConfig = function () {
-		// FIXME: Think about how to pass config around without breaking tests
-		if (typeof config === "undefined") {
-			config = defaults;
-			Log.error("Config file is missing! Please create a config file.");
-			return;
-		}
+	const loadConfig = async function () {
+		try {
+			const res = await fetch(new URL("config/", `${location.origin}${config.basePath}`));
 
-		config = Object.assign({}, defaults, config);
+			// The server tags functions as { __mmFunction: "<source>" } because
+			// JSON.stringify can't serialise live functions. This reviver turns
+			// those tagged objects back into callable functions.
+			config = JSON.parse(await res.text(), (key, value) => {
+				if (value && typeof value === "object" && typeof value.__mmFunction === "string") {
+					try {
+						return new Function(`return (${value.__mmFunction})`)();
+					} catch {
+						Log.warn(`Failed to revive function for config key "${key}".`);
+					}
+				}
+				return value;
+			});
+		} catch (error) {
+			Log.error("Unable to retrieve config", error);
+		}
 	};
 
 	/**
@@ -549,7 +562,7 @@ const MM = (function () {
 
 		/**
 		 * Walks thru a collection of modules and executes the callback with the module as an argument.
-		 * @param {Function} callback The function to execute with the module as an argument.
+		 * @param {module} callback The function to execute with the module as an argument.
 		 */
 		const enumerate = function (callback) {
 			modules.map(function (module) {
@@ -580,7 +593,7 @@ const MM = (function () {
 		 */
 		async init () {
 			Log.info("Initializing MagicMirror².");
-			loadConfig();
+			await loadConfig();
 
 			Log.setLogLevel(config.logLevel);
 
@@ -603,6 +616,18 @@ const MM = (function () {
 
 			createDomObjects();
 
+			// Setup global socket listener for RELOAD event (watch mode)
+			if (typeof io !== "undefined") {
+				const socket = io("/", {
+					path: `${config.basePath || "/"}socket.io`
+				});
+
+				socket.on("RELOAD", () => {
+					Log.warn("Reload notification received from server");
+					window.location.reload(true);
+				});
+			}
+
 			if (config.reloadAfterServerRestart) {
 				setInterval(async () => {
 					// if server startup time has changed (which means server was restarted)
@@ -614,7 +639,7 @@ const MM = (function () {
 						if (startUp !== curr) {
 							startUp = "";
 							window.location.reload(true);
-							console.warn("Refreshing Website because server was restarted");
+							Log.warn("Refreshing Website because server was restarted");
 						}
 					} catch (err) {
 						Log.error(`MagicMirror not reachable: ${err}`);
@@ -626,7 +651,7 @@ const MM = (function () {
 		/**
 		 * Send a notification to all modules.
 		 * @param {string} notification The identifier of the notification.
-		 * @param {*} payload The payload of the notification.
+		 * @param {object} payload The payload of the notification.
 		 * @param {Module} sender The module that sent the notification.
 		 */
 		sendNotification (notification, payload, sender) {
@@ -685,7 +710,7 @@ const MM = (function () {
 		 * Hide the module.
 		 * @param {Module} module The module to hide.
 		 * @param {number} speed The speed of the hide animation.
-		 * @param {Function} callback Called when the animation is done.
+		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the hide method.
 		 */
 		hideModule (module, speed, callback, options) {
@@ -697,7 +722,7 @@ const MM = (function () {
 		 * Show the module.
 		 * @param {Module} module The module to show.
 		 * @param {number} speed The speed of the show animation.
-		 * @param {Function} callback Called when the animation is done.
+		 * @param {Promise} callback Called when the animation is done.
 		 * @param {object} [options] Optional settings for the show method.
 		 */
 		showModule (module, speed, callback, options) {

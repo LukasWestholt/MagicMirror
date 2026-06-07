@@ -1,4 +1,4 @@
-/* global Class, cloneObject, Loader, MMSocket, nunjucks, Translator */
+/* global Class, cloneObject, Loader, MMSocket, nunjucks */
 
 /*
  * Module Blueprint.
@@ -7,9 +7,9 @@
 const Module = Class.extend({
 
 	/**
-	 ********************************************************
-	 * All methods (and properties) below can be subclassed. *
-	 ********************************************************
+	 *********************************************************
+	 * All methods (and properties) below can be overridden. *
+	 *********************************************************
 	 */
 
 	// Set the minimum MagicMirror² module version for this module.
@@ -38,13 +38,12 @@ const Module = Class.extend({
 	 * Called when the module is instantiated.
 	 */
 	init () {
-		//Log.log(this.defaults);
 	},
 
 	/**
 	 * Called when the module is started.
 	 */
-	async start () {
+	start () {
 		Log.info(`Starting module: ${this.name}`);
 	},
 
@@ -68,7 +67,7 @@ const Module = Class.extend({
 	 * Returns a map of translation files the module requires to be loaded.
 	 *
 	 * return Map<String, String> -
-	 * @returns {*} A map with langKeys and filenames.
+	 * @returns {Map} A map with langKeys and filenames.
 	 */
 	getTranslations () {
 		return false;
@@ -76,8 +75,8 @@ const Module = Class.extend({
 
 	/**
 	 * Generates the dom which needs to be displayed. This method is called by the MagicMirror² core.
-	 * This method can to be subclassed if the module wants to display info on the mirror.
-	 * Alternatively, the getTemplate method could be subclassed.
+	 * This method can to be overridden if the module wants to display info on the mirror.
+	 * Alternatively, the getTemplate method could be overridden.
 	 * @returns {HTMLElement|Promise} The dom or a promise with the dom to display.
 	 */
 	getDom () {
@@ -110,7 +109,7 @@ const Module = Class.extend({
 	/**
 	 * Generates the header string which needs to be displayed if a user has a header configured for this module.
 	 * This method is called by the MagicMirror² core, but only if the user has configured a default header for the module.
-	 * This method needs to be subclassed if the module wants to display modified headers on the mirror.
+	 * This method needs to be overridden if the module wants to display modified headers on the mirror.
 	 * @returns {string} The header to display above the header.
 	 */
 	getHeader () {
@@ -119,8 +118,8 @@ const Module = Class.extend({
 
 	/**
 	 * Returns the template for the module which is used by the default getDom implementation.
-	 * This method needs to be subclassed if the module wants to use a template.
-	 * It can either return a template sting, or a template filename.
+	 * This method needs to be overridden if the module wants to use a template.
+	 * It can either return a template string, or a template filename.
 	 * If the string ends with '.html' it's considered a file from within the module's folder.
 	 * @returns {string} The template string of filename.
 	 */
@@ -130,7 +129,7 @@ const Module = Class.extend({
 
 	/**
 	 * Returns the data to be used in the template.
-	 * This method needs to be subclassed if the module wants to use a custom data.
+	 * This method needs to be overridden if the module wants to use a custom data.
 	 * @returns {object} The data for the template
 	 */
 	getTemplateData () {
@@ -140,14 +139,14 @@ const Module = Class.extend({
 	/**
 	 * Called by the MagicMirror² core when a notification arrives.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 * @param {Module} sender The module that sent the notification.
 	 */
 	notificationReceived (notification, payload, sender) {
 		if (sender) {
-			// Log.log(this.name + " received a module notification: " + notification + " from sender: " + sender.name);
+			Log.debug(`${this.name} received a module notification: ${notification} from sender: ${sender.name}`);
 		} else {
-			// Log.log(this.name + " received a system notification: " + notification);
+			Log.debug(`${this.name} received a system notification: ${notification}`);
 		}
 	},
 
@@ -176,7 +175,7 @@ const Module = Class.extend({
 	/**
 	 * Called when a socket notification arrives.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 */
 	socketNotificationReceived (notification, payload) {
 		Log.log(`${this.name} received a socket notification: ${notification} - Payload: ${payload}`);
@@ -197,9 +196,9 @@ const Module = Class.extend({
 	},
 
 	/**
-	 ********************************************
-	 * The methods below don't need subclassing. *
-	 ********************************************
+	 ***********************************************
+	 * The methods below should not be overridden. *
+	 ***********************************************
 	 */
 
 	/**
@@ -344,7 +343,7 @@ const Module = Class.extend({
 	/**
 	 * Send a notification to all modules.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 */
 	sendNotification (notification, payload) {
 		MM.sendNotification(notification, payload, this);
@@ -353,7 +352,7 @@ const Module = Class.extend({
 	/**
 	 * Send a socket notification to the node helper.
 	 * @param {string} notification The identifier of the notification.
-	 * @param {*} payload The payload of the notification.
+	 * @param {object} payload The payload of the notification.
 	 */
 	sendSocketNotification (notification, payload) {
 		this.socket().sendNotification(notification, payload);
@@ -362,7 +361,7 @@ const Module = Class.extend({
 	/**
 	 * Hide this module.
 	 * @param {number} speed The speed of the hide animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the hide method.
 	 */
 	hide (speed, callback, options = {}) {
@@ -389,7 +388,7 @@ const Module = Class.extend({
 	/**
 	 * Show this module.
 	 * @param {number} speed The speed of the show animation.
-	 * @param {Function} callback Called when the animation is done.
+	 * @param {Promise} callback Called when the animation is done.
 	 * @param {object} [options] Optional settings for the show method.
 	 */
 	show (speed, callback, options) {
@@ -415,7 +414,7 @@ const Module = Class.extend({
 });
 
 /**
- * Merging MagicMirror² (or other) default/config script by @bugsounet
+ * Merging MagicMirror² (or other) default/config script by `@bugsounet`
  * Merge 2 objects or/with array
  *
  * Usage:

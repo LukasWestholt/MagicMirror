@@ -1,5 +1,6 @@
 /* global defaultModules, vendor */
 
+// eslint-disable-next-line no-unused-vars
 const Loader = (function () {
 
 	/* Create helper variables */
@@ -11,12 +12,36 @@ const Loader = (function () {
 	/* Private Methods */
 
 	/**
+	 * Get environment variables from config.
+	 * @returns {object} Env vars with modulesDir and customCss paths from config.
+	 */
+	const getEnvVarsFromConfig = function () {
+		return {
+			modulesDir: config.foreignModulesDir || "modules",
+			defaultModulesDir: config.defaultModulesDir || "defaultmodules",
+			customCss: config.customCss || "config/custom.css"
+		};
+	};
+
+	/**
 	 * Retrieve object of env variables.
 	 * @returns {object} with key: values as assembled in js/server_functions.js
 	 */
 	const getEnvVars = async function () {
-		const res = await fetch(`${location.protocol}//${location.host}${config.basePath}env`);
-		return JSON.parse(await res.text());
+		// In test mode, skip server fetch and use config values directly
+		if (typeof process !== "undefined" && process.env && process.env.mmTestMode === "true") {
+			return getEnvVarsFromConfig();
+		}
+
+		// In production, fetch env vars from server
+		try {
+			const res = await fetch(new URL("env", `${location.origin}${config.basePath}`));
+			return JSON.parse(await res.text());
+		} catch (error) {
+			// Fallback to config values if server fetch fails
+			Log.error("Unable to retrieve env configuration", error);
+			return getEnvVarsFromConfig();
+		}
 	};
 
 	/**
@@ -80,11 +105,11 @@ const Loader = (function () {
 			let moduleFolder = `${envVars.modulesDir}/${module}`;
 
 			if (defaultModules.indexOf(moduleName) !== -1) {
-				const defaultModuleFolder = `modules/default/${module}`;
+				const defaultModuleFolder = `${envVars.defaultModulesDir}/${module}`;
 				if (window.name !== "jsdom") {
 					moduleFolder = defaultModuleFolder;
 				} else {
-					// running in Jest, allow defaultModules placed under moduleDir for testing
+					// running in test mode, allow defaultModules placed under moduleDir for testing
 					if (envVars.modulesDir === "modules") {
 						moduleFolder = defaultModuleFolder;
 					}
@@ -108,7 +133,8 @@ const Loader = (function () {
 				header: moduleData.header,
 				configDeepMerge: typeof moduleData.configDeepMerge === "boolean" ? moduleData.configDeepMerge : false,
 				config: moduleData.config,
-				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module
+				classes: typeof moduleData.classes !== "undefined" ? `${moduleData.classes} ${module}` : module,
+				order: (typeof moduleData.order === "number" && Number.isInteger(moduleData.order)) ? moduleData.order : 0
 			});
 		});
 
@@ -168,7 +194,7 @@ const Loader = (function () {
 	 * @param {string} fileName Path of the file we want to load.
 	 * @returns {Promise} resolved when the file is loaded
 	 */
-	const loadFile = async function (fileName) {
+	const loadFile = function (fileName) {
 		const extension = fileName.slice((Math.max(0, fileName.lastIndexOf(".")) || Infinity) + 1);
 		let script, stylesheet;
 
@@ -217,42 +243,35 @@ const Loader = (function () {
 		 * Load all modules as defined in the config.
 		 */
 		async loadModules () {
-			let moduleData = await getModuleData();
+			const moduleData = await getModuleData();
 			const envVars = await getEnvVars();
 			const customCss = envVars.customCss;
 
-			/**
-			 * @returns {Promise<void>} when all modules are loaded
-			 */
-			const loadNextModule = async function () {
-				if (moduleData.length > 0) {
-					const nextModule = moduleData[0];
-					await loadModule(nextModule);
-					moduleData = moduleData.slice(1);
-					await loadNextModule();
-				} else {
-					// All modules loaded. Load custom.css
-					// This is done after all the modules so we can
-					// overwrite all the defined styles.
-					await loadFile(customCss);
-					// custom.css loaded. Start all modules.
-					await startModules();
-				}
-			};
-			await loadNextModule();
+			// Load all modules
+			for (const module of moduleData) {
+				await loadModule(module);
+			}
+
+			// Load custom.css
+			// Since this happens after loading the modules,
+			// it overwrites the default styles.
+			await loadFile(customCss);
+
+			// Start all modules.
+			await startModules();
 		},
 
 		/**
 		 * Load a file (script or stylesheet).
-		 * Prevent double loading and search for files in the vendor folder.
+		 * Prevent double loading and search for files defined in js/vendor.js.
 		 * @param {string} fileName Path of the file we want to load.
 		 * @param {Module} module The module that calls the loadFile function.
 		 * @returns {Promise} resolved when the file is loaded
 		 */
-		async loadFileForModule (fileName, module) {
+		loadFileForModule (fileName, module) {
 			if (loadedFiles.indexOf(fileName.toLowerCase()) !== -1) {
 				Log.log(`File already loaded: ${fileName}`);
-				return;
+				return Promise.resolve();
 			}
 
 			if (fileName.indexOf("http://") === 0 || fileName.indexOf("https://") === 0 || fileName.indexOf("/") !== -1) {
@@ -263,10 +282,10 @@ const Loader = (function () {
 			}
 
 			if (vendor[fileName] !== undefined) {
-				// This file is available in the vendor folder.
-				// Load it from this vendor folder.
+				// This file is defined in js/vendor.js.
+				// Load it from its location.
 				loadedFiles.push(fileName.toLowerCase());
-				return loadFile(`vendor/${vendor[fileName]}`);
+				return loadFile(`${vendor[fileName]}`);
 			}
 
 			// File not loaded yet.
