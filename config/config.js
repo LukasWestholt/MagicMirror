@@ -248,15 +248,15 @@ let config = {
 				],
 			},
 		},
-		{
-			module: "MMM-MagicMover",
-			config: {
-				updateInterval: 10 * 60 * 1000,
-				ignoredRegions: [],
-				maxMove: 15,
-				moveWholescreen: false,
-			}
-		},
+		// {
+		// 	module: "MMM-MagicMover",
+		// 	config: {
+		// 		updateInterval: 10 * 60 * 1000,
+		// 		ignoredRegions: [],
+		// 		maxMove: 15,
+		// 		moveWholescreen: false,
+		// 	}
+		// },
 		// {
 		//   module: 'MMM-Screencast',
 		//   position: 'bottom_right', // This position is for a hidden <div /> and not the screencast window
