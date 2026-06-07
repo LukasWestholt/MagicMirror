@@ -8,7 +8,7 @@ git merge upstream/master --no-edit
 echo "Update MagicMirror modules"
 git submodule update --init --recursive --remote
 # or whitelisted:
-# git submodule update --init --recursive --remote -- modules/MMM-Pir
+# git submodule update --init --recursive --remote -- modules/MMM-XYZ
 echo "Commit MagicMirror module update"
 git add modules/* || echo "Skip ignored files!"
 git commit -m "Chore: Update some MMM" || echo "Failed to commit!"

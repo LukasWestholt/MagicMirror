@@ -55,7 +55,7 @@ bash scripts/admin-repo-updater.sh
 
 ## Change remote of a module
 ```
-# Edit in .gitmodules 
+# Edit in .gitmodules
 git submodule sync --recursive
 bash scripts/admin-repo-updater.sh
 ```
@@ -132,23 +132,7 @@ GPIO 22
 
 Raspbian GNU/Linux 11 (bullseye). UPDATED!
 
-
-### PIR module
-- https://github.com/bugsounet/MMM-Pir
-
-or
-
-- https://github.com/Tom-Hirschberger/MMM-Screen-Powersave-Notification
-- https://github.com/Tom-Hirschberger/MMM-GPIO-Notifications
-
-
-Pins https://pinout.xyz/
-
 Id of AnkiConnect: 2055492159
-
-
-xrandr --auto
-
 
 
 <p style="text-align: center">
