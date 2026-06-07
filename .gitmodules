@@ -31,3 +31,9 @@
 [submodule "modules/MMM-Canteen"]
 	path = modules/MMM-Canteen
 	url = https://github.com/KristjanESPERANTO/MMM-Canteen.git
+[submodule "modules/MMM-MagicMover"]
+	path = modules/MMM-MagicMover
+	url = https://github.com/Lavve/MMM-MagicMover
+[submodule "modules/MMM-RepoStats"]
+	path = modules/MMM-RepoStats
+	url = https://gitlab.com/khassel/MMM-RepoStats
