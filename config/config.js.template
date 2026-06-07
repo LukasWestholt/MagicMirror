@@ -292,6 +292,23 @@ let config = {
 		// 	}
 		// },
 		// + Logging Raummovement in Keeps
+		{
+    	module: 'MMM-homeassistant-sensors',
+    	position: 'top_left',
+    	config: {
+    		host: "${HOMEASSISTANT_HOST}",
+    		port: "8123",
+    		https: false,
+    		token: "${HOMEASSISTANT_TOKEN}",
+    		values: [
+    			{
+    				sensor: "${SENSOR_ELECTRICITY_PRICE}",
+    				name: "Strompreis ist %v% €",
+            displayvalue: false,
+    			},
+    		]
+    	}
+    },
 	]
 };
 

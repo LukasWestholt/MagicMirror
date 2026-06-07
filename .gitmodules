@@ -34,3 +34,6 @@
 [submodule "modules/MMM-RepoStats"]
 	path = modules/MMM-RepoStats
 	url = https://gitlab.com/khassel/MMM-RepoStats
+[submodule "modules/MMM-homeassistant-sensors"]
+	path = modules/MMM-homeassistant-sensors
+	url = https://github.com/Snille/MMM-homeassistant-sensors.git
