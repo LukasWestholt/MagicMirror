@@ -16,9 +16,6 @@
 [submodule "modules/MMM-OnThisDayWikiApi"]
 	path = modules/MMM-OnThisDayWikiApi
 	url = https://github.com/slugmuffin/MMM-OnThisDayWikiApi.git
-[submodule "modules/MMM-Hue-Controller-2"]
-	path = modules/MMM-Hue-Controller-2
-	url = https://github.com/jboucly/MMM-Hue-Controller-2
 [submodule "modules/MMM-Cinestar-FDW"]
 	path = modules/MMM-Cinestar-FDW
 	url = https://github.com/LukasWestholt/MMM-Cinestar-FDW.git

@@ -6,7 +6,6 @@ declare -A modules=(
   [MMM-PublicTransportHafas]="npm ci"
   [MMM-Bring]="npm install"
   [mmm-systemtemperature]="npm install"
-  [MMM-Hue-Controller-2]="npm ci"
   [MMM-Cinestar-FDW]="npm install"
   [MMM-RepoStats]="npm install"
 )

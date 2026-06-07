@@ -6,6 +6,7 @@ username: lukas
 # Fresh install
 
 Install a fresh OS via Raspberry Pi Imager (64 Bit version) then:
+
 ```
 sudo apt install screen
 screen -S freshinstall
@@ -20,6 +21,7 @@ bash scripts/raspi-install.sh
 ## How to restart MagicMirror
 
 Just execute:
+
 ```
 pm2 restart mm
 ```
@@ -27,6 +29,7 @@ pm2 restart mm
 ## How to update
 
 Just execute:
+
 ```
 cd MagicMirror/
 bash scripts/raspi-update.sh
@@ -35,6 +38,7 @@ bash scripts/raspi-update.sh
 # Development custom modules
 
 ## Local testing in git bash
+
 ```
 npm run install-mm
 export MM_CONFIG_FILE=config/local_config.js
@@ -42,6 +46,7 @@ npm run server
 ```
 
 ## Checkout new version of module
+
 ```
 cd modules/<module>
 git fetch
@@ -49,11 +54,13 @@ git checkout origin/main
 ```
 
 ## Update MM and all modules
+
 ```
 bash scripts/admin-repo-updater.sh
 ```
 
 ## Change remote of a module
+
 ```
 # Edit in .gitmodules
 git submodule sync --recursive
@@ -96,7 +103,6 @@ https://github.com/jboucly/MMM-Pages-Screencast
 https://github.com/Pip1405/MMM-FearAndGreedIndex
 https://github.com/buxxi/MMM-RouterClients
 https://github.com/thomo/MMM-kudos
-https://github.com/mumblebaj/MMM-PhilipsHue
 https://github.com/skuethe/MMM-Spotify
 https://github.com/uxigene/MMM-Chart
 https://github.com/kevinatown/MMM-Screencast
@@ -110,7 +116,6 @@ https://github.com/PierreGode/MMM-next-episode
 https://github.com/jalibu/MMM-NINA
 https://github.com/XppaiCyberr/MMM-NounsAuction
 https://github.com/cgillinger/MMM-WeatherEffects
-https://github.com/DreamyChloe/MMM-HueControl
 https://github.com/alanshen111/MMM-Facts
 https://github.com/Dennis-Rosenbaum/MMM-Quiz
 https://github.com/gertperdZA/MMM-Afvalwijzer
@@ -119,6 +124,7 @@ https://github.com/KristjanESPERANTO/MMM-ApothekenNotdienst
 ```
 
 ## Build these TODO
+
 ```
 Müll Kalender
 Mehr Haltestellen. Weniger trams
@@ -133,7 +139,6 @@ GPIO 22
 Raspbian GNU/Linux 11 (bullseye). UPDATED!
 
 Id of AnkiConnect: 2055492159
-
 
 <p style="text-align: center">
   <a href="https://choosealicense.com/licenses/mit">

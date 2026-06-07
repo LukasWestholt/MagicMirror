@@ -282,16 +282,6 @@ let config = {
     //     castName: 'MagicMirror',
     //   }
     // }
-		// {
-		// 	module: "MMM-Hue-Controller-2",
-		// 	position: "top_right",
-		// 	hiddenOnStartup: true,
-		// 	config: {
-		// 		bridgeIp: "192.168.178.24",
-		// 		user: "u88ha631lf6I189LLcZhpkrwxhFr3LRbt--NB3Wh",
-		// 	}
-		// },
-		// + Logging Raummovement in Keeps
 		{
     	module: 'MMM-homeassistant-sensors',
     	position: 'top_left',
