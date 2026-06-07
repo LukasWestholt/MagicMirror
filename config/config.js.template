@@ -9,7 +9,7 @@
  * see https://docs.magicmirror.builders/configuration/introduction.html#enviromnent-variables
  */
 let config = {
-	address: "localhost",	// Address to listen on, can be:
+	address: "0.0.0.0",	// Address to listen on, can be:
 							// - "localhost", "127.0.0.1", "::1" to listen on loopback interface
 							// - another specific IPv4/6 to listen on a specific interface
 							// - "0.0.0.0", "::" to listen on any interface
@@ -17,7 +17,7 @@ let config = {
 	port: 8080,
 	basePath: "/",	// The URL path where MagicMirror² is hosted. If you are using a Reverse proxy
 									// you must set the sub path here. basePath must end with a /
-	ipWhitelist: ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.178.0/24"],	// Set [] to allow all IP addresses
+	ipWhitelist: [],	// Set [] to allow all IP addresses
 									// or add a specific IPv4 of 192.168.1.5 :
 									// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.5"],
 									// or IPv4 range of 192.168.3.0 --> 192.168.3.15 use CIDR format :
@@ -132,6 +132,7 @@ let config = {
 			position: "bottom_right",
 
 			config: {
+				hafasProfile: "insa",
 				// Departures options
 				stationID: "${STATIONID}",                   // Replace with your stationID!
 				stationName: "${STATIONNAME}", // Replace with your station name!
@@ -152,58 +153,6 @@ let config = {
 				showTableHeadersAsSymbols: true,  // Table Headers as symbols or text?
 				useColorForRealtimeInfo: true     // Want colored real time information (timeToStation, early)?
 			},
-		},
-		{
-			module: 'MMM-Pir',
-			position: 'top_left',
-			config: {
-				debug: false,
-				Display: {
-					timeout: 0.75 * 60 * 1000, // 0.75 minutes
-					animate: true,
-					style: 1,
-					colorFrom: "#FF0000",
-					colorTo: "#00FF00",
-					mode: 3,
-          ecoMode : true,
-					counter: true,
-					lastPresence: true,
-					lastPresenceTimeFormat: "LL H:mm",
-					availability: true,
-					autoDimmer: false,
-					xrandrForceRotation: "left",
-					wrandrForceRotation: "90",
-					waylandDisplayName: "wayland-0",
-				},
-				Pir: {
-          animate: true,
-					mode: 1,
-					gpio: 6,
-          triggerMode : "LH"
-				},
-				Motion: {
-          animate: true,
-					deviceId: 0,
-					captureIntervalTime: 1000,
-					scoreThreshold: 100
-				},
-				Cron: {
-					mode: 0,
-					ON: [],
-					OFF: []
-				},
-				Touch: {
-					mode: 0
-				},
-				Governor: {
-					sleeping: 4,
-					working: 2
-				},
-				Sounds: {
-					on: "open.mp3",
-					off: "close.mp3"
-				}
-			}
 		},
 		{
 			module: "MMM-Bring",
@@ -303,6 +252,27 @@ let config = {
         switchTime: "14:00",
 				showVeggieColumn: false,
         showOnlyKeywords: ["Veganes Gericht", "WOK"],
+      }
+    },
+    {
+      module: "MMM-RepoStats",
+      position: "top_left",
+      config: {
+        type: "github",
+        title: "GitHub",
+        repoList: [
+          "MagicMirrorOrg/MagicMirror",
+          "LukasWestholt/MagicMirror",
+        ],
+      },
+    },
+    {
+      module: "MMM-MagicMover",
+      config: {
+        updateInterval: 10 * 60 * 1000,
+        ignoredRegions: [],
+        maxMove: 15,
+        moveWholescreen: false,
       }
     },
     // {
