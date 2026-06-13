@@ -237,8 +237,8 @@ let config = {
 				type: "github",
 				title: "GitHub",
 				repoList: [
-					"MagicMirrorOrg/MagicMirror",
-					"LukasWestholt/MagicMirror",
+					"LukasWestholt/blog",
+					"emmaw-py/promotion",
 				],
 			},
 		},
