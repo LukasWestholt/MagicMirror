@@ -230,18 +230,18 @@ let config = {
 				showOnlyKeywords: ["Veganes Gericht", "WOK"],
 			}
 		},
-		{
-			module: "MMM-RepoStats",
-			position: "top_left",
-			config: {
-				type: "github",
-				title: "GitHub",
-				repoList: [
-					"LukasWestholt/blog",
-					"emmaw-py/promotion",
-				],
-			},
-		},
+		// {
+		// 	module: "MMM-RepoStats",
+		// 	position: "top_left",
+		// 	config: {
+		// 		type: "github",
+		// 		title: "GitHub",
+		// 		repoList: [
+		// 			"LukasWestholt/blog",
+		// 			"emmaw-py/promotion",
+		// 		],
+		// 	},
+		// },
 		// {
 		// 	module: "MMM-MagicMover",
 		// 	config: {
