@@ -53,15 +53,6 @@ let config = {
 			module: "alert",
 		},
 		{
-			module: "updatenotification",
-			position: "top_bar",
-			config: {
-				updateAutorestart: true,
-				updates: [
-				]
-			}
-		},
-		{
 			module: "clock",
 			position: "top_left"
 		},
