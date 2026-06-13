@@ -20,7 +20,11 @@ pm2 startup
 # see logs and do manually
 
 cd ~
-echo -e "cd ./MagicMirror\nDISPLAY=:0 npm start" > mm.sh
+#echo 'cd ./MagicMirror
+#ELECTRON_SWITCHES="--password-store=basic --use-mock-keychain" WAYLAND_DISPLAY="${WAYLAND_DISPLAY:=wayland-0}" npm start' > mm.sh
+# TODO until version 2.37.0 do this because of https://github.com/MagicMirrorOrg/MagicMirror/pull/4161/changes
+echo 'cd ./MagicMirror
+WAYLAND_DISPLAY="${WAYLAND_DISPLAY:=wayland-0}" ./node_modules/.bin/electron js/electron.js --ozone-platform=wayland  --password-store=basic' > mm.sh
 chmod +x mm.sh
 pm2 start mm.sh
 pm2 save

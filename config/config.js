@@ -17,6 +17,8 @@ let config = {
 	port: 8080,
 	basePath: "/",	// The URL path where MagicMirror² is hosted. If you are using a Reverse proxy
 	// you must set the sub path here. basePath must end with a /
+	// Solves keychain problems. I got dialog: "Choose password for new keyring"
+	electronSwitches: ["use-mock-keychain", { "password-store": "basic" }],
 	ipWhitelist: [],	// Set [] to allow all IP addresses
 	// or add a specific IPv4 of 192.168.1.5 :
 	// ["127.0.0.1", "::ffff:127.0.0.1", "::1", "::ffff:192.168.1.5"],
