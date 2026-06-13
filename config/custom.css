@@ -11,23 +11,26 @@
   border-bottom: 0;
 }
 
-.MMM-OnThisDayWikiApi {
-  max-width: none;
-  height: auto;
-  max-height: none;
-  /* from css class dimmed small light */
-  line-height: 1.25;
-  font-family: "Roboto Condensed", sans-serif;
-  font-weight: 300;
-  font-size: 1rem;
-  color: #666;
+/* ── MMM-OnThisDayWikiApi → default NewsFeed look ── */
+
+/* SINGLE layout: event text = newsfeed headline (bright medium light).
+   It's already bright+light, so we only lift the size to medium. */
+.MMM-OnThisDayWikiApi .MMM-OnThisDayWikiApi-single .title.normal {
+  font-size: var(--font-size-medium);
+  line-height: 1.225;
+  text-transform: none;
 }
 
-.MMM-OnThisDayWikiApi-single .title {
-  text-transform: none;
+/* The "On This Day: <year>:" heading = newsfeed source (light small dimmed). */
+.MMM-OnThisDayWikiApi .MMM-OnThisDayWikiApi-single .title.dimmed {
+  font-family: var(--font-primary);
+  font-weight: 300;
+  font-size: var(--font-size-small);
+  line-height: 1.25;
+}
 
-  /* from classes bright medium light*/
-  line-height: 1.225;
-  font-size: 1.5rem;
-  color: #fff;
+/* optional — the year is bright/white by default; dim it so the whole
+   heading reads like a newsfeed source line */
+.MMM-OnThisDayWikiApi .MMM-OnThisDayWikiApi-single .title.dimmed .bright {
+  color: var(--color-text-dimmed);
 }
